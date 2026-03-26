@@ -1,0 +1,332 @@
+@import 'datatables.net-bs5/css/dataTables.bootstrap5.css';
+@import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.css';
+@import 'datatables.net-buttons-bs5/css/buttons.bootstrap5.css';
+
+/* ─── Google Fonts ─────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@400;500;600&family=Trocchi&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 0 0% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 0 0% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 0 0% 3.9%;
+        --primary: 0 0% 9%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 0 0% 96.1%;
+        --secondary-foreground: 0 0% 9%;
+        --muted: 0 0% 96.1%;
+        --muted-foreground: 0 0% 45.1%;
+        --accent: 0 0% 96.1%;
+        --accent-foreground: 0 0% 9%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 0 0% 89.8%;
+        --input: 0 0% 89.8%;
+        --ring: 0 0% 3.9%;
+        --chart-1: 12 76% 61%;
+        --chart-2: 173 58% 39%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+        --radius: 0.5rem;
+
+        /* ── Typography scale tokens (mobile-first) ── */
+        --font-h1: 2rem;        /* 32px  → mobile */
+        --font-h2: 1.625rem;    /* 26px */
+        --font-h3: 1.375rem;    /* 22px */
+        --font-h4: 1.125rem;    /* 18px */
+        --font-h5: 1rem;        /* 16px */
+        --font-h6: 0.875rem;    /* 14px */
+        --font-p:  0.9375rem;   /* 15px */
+    }
+
+    .dark {
+        --background: 0 0% 3.9%;
+        --foreground: 0 0% 98%;
+        --card: 0 0% 3.9%;
+        --card-foreground: 0 0% 98%;
+        --popover: 0 0% 3.9%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 0 0% 98%;
+        --primary-foreground: 0 0% 9%;
+        --secondary: 0 0% 14.9%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 0 0% 14.9%;
+        --muted-foreground: 0 0% 63.9%;
+        --accent: 0 0% 14.9%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 0 0% 14.9%;
+        --input: 0 0% 14.9%;
+        --ring: 0 0% 83.1%;
+        --chart-1: 220 70% 50%;
+        --chart-2: 160 60% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+    }
+}
+
+/* ════════════════════════════════════════════════════════
+   BASE RESET & BODY
+════════════════════════════════════════════════════════ */
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        @apply bg-background text-foreground antialiased;
+    }
+
+    img, video {
+        @apply max-w-full h-auto;
+    }
+
+    ::selection {
+        @apply bg-blue-500 text-white;
+    }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* ════════════════════════════════════════════════════════
+   GLOBAL TYPOGRAPHY — 5 BREAKPOINTS
+   xs  <  480px   (small phones)
+   sm  ≥  640px   (large phones / small tablets)
+   md  ≥  768px   (tablets)
+   lg  ≥  1024px  (laptops / desktops)
+   2xl ≥  1536px  (4K / ultrawide)
+════════════════════════════════════════════════════════ */
+@layer base {
+
+    /* ── Headings ─────────────────────────────────── */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Poppins', sans-serif;
+        @apply font-bold leading-tight tracking-tight text-slate-900;
+    }
+
+    /* H1 — Hero titles */
+    h1 {
+        font-size: var(--font-h1);          /* 32px  xs  */
+        @apply sm:text-4xl                  /* 36px  sm  */
+        md:text-5xl                  /* 48px  md  */
+        lg:text-5xl                  /* 48px  lg  */
+        2xl:text-6xl;               /* 60px  4K  */
+    }
+
+    /* H2 — Section titles */
+    h2 {
+        font-size: var(--font-h2);          /* 26px  xs  */
+        @apply sm:text-3xl                  /* 30px  sm  */
+        md:text-4xl                  /* 36px  md  */
+        lg:text-4xl                  /* 36px  lg  */
+        2xl:text-5xl;               /* 48px  4K  */
+    }
+
+    /* H3 — Card / sub-section titles */
+    h3 {
+        font-size: var(--font-h3);          /* 22px  xs  */
+        @apply sm:text-2xl                  /* 24px  sm  */
+        md:text-3xl                  /* 30px  md  */
+        2xl:text-4xl;               /* 36px  4K  */
+    }
+
+    /* H4 — Widget / sidebar titles */
+    h4 {
+        font-size: var(--font-h4);          /* 18px  xs  */
+        @apply sm:text-xl                   /* 20px  sm  */
+        md:text-2xl                  /* 24px  md  */
+        2xl:text-3xl;               /* 30px  4K  */
+    }
+
+    /* H5 */
+    h5 {
+        font-size: var(--font-h5);          /* 16px  xs  */
+        @apply sm:text-lg                   /* 18px  sm  */
+        md:text-xl                   /* 20px  md  */
+        2xl:text-2xl;               /* 24px  4K  */
+    }
+
+    /* H6 */
+    h6 {
+        font-size: var(--font-h6);          /* 14px  xs  */
+        @apply sm:text-base                 /* 16px  sm  */
+        md:text-lg                   /* 18px  md  */
+        2xl:text-xl;                /* 20px  4K  */
+    }
+
+    /* ── Paragraph ────────────────────────────────── */
+    p {
+        font-family: 'Inter', sans-serif;
+        font-size: var(--font-p);           /* 15px  xs  */
+        @apply leading-relaxed text-slate-600
+        sm:text-base                 /* 16px  sm  */
+        md:text-base                 /* 16px  md  */
+        lg:text-lg                   /* 18px  lg  */
+        2xl:text-xl;                /* 20px  4K  */
+    }
+
+    /* ── Section rhythm ───────────────────────────── */
+    section h2 { @apply mb-3; }
+    section p  { @apply mb-0; }
+
+    /* ── Scrollbar ────────────────────────────────── */
+    ::-webkit-scrollbar       { width: 10px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+        border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(to bottom, #2563eb, #7c3aed);
+    }
+}
+
+/* ════════════════════════════════════════════════════════
+   COMPONENT TOKENS
+════════════════════════════════════════════════════════ */
+@layer components {
+
+    /* ── Card ─────────────────────────────────────── */
+    .card {
+        @apply bg-white rounded-2xl border border-slate-100
+        shadow-sm hover:shadow-lg
+        transition-shadow duration-300
+        p-4 sm:p-5 md:p-6 2xl:p-8;
+    }
+
+    .card-title {
+        font-family: 'Poppins', sans-serif;
+        @apply text-base sm:text-lg md:text-xl
+        font-semibold text-slate-900 mb-2;
+    }
+
+    .card-body {
+        font-family: 'Inter', sans-serif;
+        @apply text-sm sm:text-sm md:text-base
+        text-slate-600 leading-relaxed;
+    }
+
+    /* ── Section spacing ──────────────────────────── */
+    /*
+       Device map:
+       xs  phone portrait   py-10  (40px)
+       sm  phone landscape  py-14  (56px)
+       md  tablet           py-16  (64px)
+       lg  laptop           py-20  (80px)
+       2xl 4K / ultrawide   py-28  (112px)
+    */
+    .section-gap {
+        @apply py-10 sm:py-14 md:py-16 lg:py-20 2xl:py-28;
+    }
+
+    /* ── Section headings ─────────────────────────── */
+    .section-heading {
+        font-family: 'Poppins', sans-serif;
+        @apply text-2xl sm:text-3xl md:text-4xl 2xl:text-5xl
+        font-black text-slate-900 mb-3 md:mb-4;
+    }
+
+    .section-subheading {
+        font-family: 'Inter', sans-serif;
+        @apply text-base sm:text-lg md:text-lg 2xl:text-xl
+        text-slate-500 max-w-2xl mx-auto leading-relaxed;
+    }
+
+    /* ── Container widths per device ─────────────── */
+    .container-landing {
+        @apply w-full mx-auto px-4
+        sm:px-6
+        md:px-8
+        lg:max-w-6xl
+        xl:max-w-7xl
+        2xl:max-w-screen-2xl 2xl:px-16;
+    }
+
+    /* ── Buttons ──────────────────────────────────── */
+    .btn-primary {
+        @apply inline-flex items-center justify-center gap-2
+        px-5 py-3 sm:px-6 sm:py-3.5 md:px-8 md:py-4
+        text-sm sm:text-base font-bold text-white
+        bg-gradient-to-r from-blue-600 to-purple-600
+        rounded-xl shadow-xl shadow-blue-500/30
+        hover:from-blue-700 hover:to-purple-700
+        hover:shadow-2xl hover:shadow-blue-500/40
+        hover:scale-105 transition-all duration-300;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center justify-center gap-2
+        px-5 py-3 sm:px-6 sm:py-3.5 md:px-8 md:py-4
+        text-sm sm:text-base font-bold text-slate-700
+        bg-white border-2 border-slate-200 rounded-xl
+        hover:border-blue-300 hover:bg-blue-50
+        hover:scale-105 shadow-lg transition-all duration-300;
+    }
+
+    /* ── Badge ────────────────────────────────────── */
+    .badge-pill {
+        @apply inline-flex items-center gap-2
+        bg-white/80 backdrop-blur-sm
+        border border-blue-200
+        px-3 py-1.5 sm:px-4 sm:py-2
+        rounded-full shadow-sm
+        text-xs sm:text-sm font-semibold
+        bg-gradient-to-r from-blue-600 to-purple-600
+        bg-clip-text text-transparent;
+    }
+
+    /* ── Animations ───────────────────────────────── */
+    .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+    .animate-fade-in {
+        animation: fadeIn 0.6s ease-out forwards;
+    }
+    .animate-slide-in-left {
+        animation: slideInLeft 0.6s ease-out forwards;
+    }
+    .animate-slide-in-right {
+        animation: slideInRight 0.6s ease-out forwards;
+    }
+}
+
+/* ════════════════════════════════════════════════════════
+   KEYFRAMES
+════════════════════════════════════════════════════════ */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to   { opacity: 1; transform: translateX(0);     }
+}
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to   { opacity: 1; transform: translateX(0);    }
+}
+@keyframes blob {
+    0%, 100% { transform: translate(0px, 0px) scale(1);      }
+    33%       { transform: translate(30px, -50px) scale(1.1); }
+    66%       { transform: translate(-20px, 20px) scale(0.9); }
+}
