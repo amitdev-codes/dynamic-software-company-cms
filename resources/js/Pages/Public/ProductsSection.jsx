@@ -1,230 +1,234 @@
+import React, { useRef, useState } from 'react';
+import { CheckCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { useRef, useState } from 'react';
 
-export default function ProductsSection({ products = [] }) {
+const ProductsSection = ({ products = [] }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [direction, setDirection] = useState(1);
 
     const productsList = products.map((product) => ({
-        id:          product.id,
-        name:        product.name,
-        title:       product.title,
+        id: product.id,
+        name: product.name,
         description: product.description || 'No description available.',
-        features:    Array.isArray(product.features) ? product.features : [],
+        features: Array.isArray(product.features) ? product.features : [],
         techStack: {
             architecture: product.tech_stack?.architecture || '',
-            frontend:     product.tech_stack?.frontend     || '',
-            middleware:   product.tech_stack?.middleware   || '',
-            database:     product.tech_stack?.database     || product.tech_stack?.Database || '',
+            frontend: product.tech_stack?.frontend || '',
+            middleware: product.tech_stack?.middleware || '',
+            database: product.tech_stack?.database || product.tech_stack?.Database || '',
         },
-        pricing: product.pricing || '',
-        image:   product.image   || '/image/products1.png',
+        pricing: product.pricing || 'Free',
+        image: product.image || '/image/products1.png',
     }));
+
+    const currentProduct = productsList[currentSlide] || productsList[0];
+
+    const nextSlide = () => {
+        setCurrentSlide((prev) => (prev + 1) % productsList.length);
+    };
+
+    const prevSlide = () => {
+        setCurrentSlide((prev) => (prev - 1 + productsList.length) % productsList.length);
+    };
 
     if (!productsList.length) return null;
 
-    const total = productsList.length;
-    const current = productsList[currentSlide];
-
-    const goTo = (index) => {
-        setDirection(index > currentSlide ? 1 : -1);
-        setCurrentSlide(index);
-    };
-    const next = () => goTo((currentSlide + 1) % total);
-    const prev = () => goTo((currentSlide - 1 + total) % total);
-
-    /* ── tech stack rows, only truthy values ── */
-    const techRows = [
-        { label: 'Architecture', value: current.techStack.architecture },
-        { label: 'Frontend',     value: current.techStack.frontend     },
-        { label: 'Middleware',   value: current.techStack.middleware   },
-        { label: 'Database',     value: current.techStack.database     },
-    ].filter((r) => r.value);
-
-    const hasTech = techRows.length > 0;
-
-    /* ── slide animation variants ── */
-    const slideVariants = {
-        enter:  (d) => ({ opacity: 0, x: d > 0 ? 40 : -40 }),
-        center: { opacity: 1, x: 0, transition: { duration: 0.35, ease: 'easeOut' } },
-        exit:   (d) => ({ opacity: 0, x: d > 0 ? -40 : 40, transition: { duration: 0.25 } }),
-    };
-
-    /* ── nav button ── */
-    const NavBtn = ({ onClick, label, children }) => (
-        <button
-            onClick={onClick}
-            aria-label={label}
-            className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-transform duration-200 shadow-lg shadow-blue-500/30"
-        >
-            {children}
-        </button>
-    );
-
     return (
-        <section id="products" className="section-gap bg-slate-50 relative overflow-hidden">
-
-            {/* Subtle background orbs */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-32 -right-32 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-60" />
-                <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-purple-100 rounded-full blur-3xl opacity-60" />
-            </div>
-
-            <div ref={ref} className="container-landing relative z-10">
-
-                {/* ── Section header ─────────────────────────────── */}
+        <section
+            className="py-24 bg-white dark:bg-slate-950 transition-colors duration-300"
+            id="products"
+        >
+            <div className="max-w-7xl mx-auto px-6">
+                {/* Header */}
                 <motion.div
+                    ref={ref}
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-12 md:mb-16"
+                    className="text-center mb-12"
                 >
-                    <span className="inline-block text-blue-600 font-semibold text-sm tracking-wider uppercase mb-3">
-                        Our Products
-                    </span>
-                    <h2 className="font-black leading-tight mb-0">
-                        Consistently Driving Development,
-                        Enhancement &amp; Execution of{' '}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                    <div className="flex items-center justify-center gap-4 mb-3">
+                        <div className="h-px w-12 bg-gray-300 dark:bg-slate-700"></div>
+                        <span className="text-sm font-semibold tracking-widest text-purple-600 dark:text-purple-500 uppercase">
+                            OUR WORK
+                        </span>
+                        <div className="h-px w-12 bg-gray-300 dark:bg-slate-700"></div>
+                    </div>
+
+                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white leading-tight">
+                        Consistently Driving Development, Enhancement &<br />
+                        Execution of{' '}
+                        <span className="bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-500 dark:to-blue-500 bg-clip-text text-transparent">
                             Our Products
                         </span>
                     </h2>
                 </motion.div>
 
-                {/* ── Slide wrapper ───────────────────────────────── */}
-                <AnimatePresence custom={direction} mode="wait">
+                {/* Top Navigation Arrows */}
+                {productsList.length > 1 && (
+                    <div className="flex justify-center gap-6 mb-10">
+                        <button
+                            onClick={prevSlide}
+                            className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-purple-600 hover:scale-110 transition-all active:scale-95"
+                            aria-label="Previous product"
+                        >
+                            <ChevronLeft className="w-6 h-6" />
+                        </button>
+                        <button
+                            onClick={nextSlide}
+                            className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-purple-600 hover:scale-110 transition-all active:scale-95"
+                            aria-label="Next product"
+                        >
+                            <ChevronRight className="w-6 h-6" />
+                        </button>
+                    </div>
+                )}
+
+                <div className="grid md:grid-cols-2 gap-10 lg:gap-16">
+                    {/* ==================== IMAGE CARD ==================== */}
                     <motion.div
-                        key={currentSlide}
-                        custom={direction}
-                        variants={slideVariants}
-                        initial="enter"
-                        animate="center"
-                        exit="exit"
-                        className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-10"
+                        initial={{ opacity: 0, x: -40 }}
+                        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
+                        transition={{ duration: 0.7 }}
+                        className="relative group h-full"
                     >
-                        {/* ── Left · Product image ───────────────── */}
-                        <div className="lg:col-span-5 order-2 lg:order-1">
-                            <div className="relative">
-                                <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-blue-50 to-purple-50 p-6 md:p-8">
-                                    <img
-                                        src={current.image}
-                                        alt={current.name}
-                                        className="w-full h-auto object-contain max-h-72 md:max-h-96 mx-auto"
+                        <div className="bg-[#F0F4FF] dark:bg-slate-900 rounded-3xl p-8 shadow-xl border border-slate-100 dark:border-slate-800 h-full flex flex-col relative overflow-hidden">
+
+                            {/* Main Image Container */}
+                            <div className="flex-1 flex items-center justify-center overflow-hidden">
+                                <AnimatePresence mode="wait">
+                                    <motion.img
+                                        key={currentProduct.image}
+                                        src={currentProduct.image}
+                                        alt={currentProduct.name}
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 1.1 }}
+                                        transition={{ duration: 0.5 }}
+                                        className="max-h-[420px] w-full object-contain rounded-2xl transition-transform duration-700 group-hover:scale-105"
                                     />
-                                </div>
-                                {/* Decorative tile */}
-                                <div className="absolute -bottom-4 -right-4 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-blue-200 to-purple-200 rounded-2xl -z-10" />
+                                </AnimatePresence>
                             </div>
+
+                            {/* Decorative Shadow Layer (as requested) */}
+                            <div className="absolute -bottom-6 -right-6 w-80 h-80 bg-gradient-to-br from-purple-500/20 to-blue-500/20 dark:from-purple-600/30 dark:to-blue-600/30 rounded-full blur-3xl -z-10" />
+
+                            {/* Extra subtle inner shadow for depth */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-black/5 to-transparent dark:from-white/5 rounded-3xl pointer-events-none" />
                         </div>
+                    </motion.div>
 
-                        {/* ── Right · Product detail card ────────── */}
-                        <div className="lg:col-span-7 order-1 lg:order-2">
-                            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 relative">
-
-                                {/* Nav arrows — top-right of card */}
-                                {total > 1 && (
-                                    <div className="absolute top-5 right-5 md:top-6 md:right-6 flex gap-2 z-10">
-                                        <NavBtn onClick={prev} label="Previous product">
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                            </svg>
-                                        </NavBtn>
-                                        <NavBtn onClick={next} label="Next product">
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </NavBtn>
-                                    </div>
-                                )}
-
-                                {/* Counter badge */}
-                                {total > 1 && (
-                                    <span className="inline-block text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 px-2.5 py-1 rounded-full mb-4">
-                                        {currentSlide + 1} / {total}
-                                    </span>
-                                )}
-
-                                {/* Product name */}
-                                <h3 className="font-black mb-3 pr-24">
-                                    {current.name}
+                    {/* ==================== DESCRIPTION CARD ==================== */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 40 }}
+                        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+                        transition={{ duration: 0.7, delay: 0.1 }}
+                        className="h-full"
+                    >
+                        <div className="bg-white dark:bg-slate-900 rounded-3xl p-10 shadow-xl border border-slate-100 dark:border-slate-800 h-full flex flex-col">
+                            <div className="flex-1">
+                                <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">
+                                    {currentProduct.name}
                                 </h3>
 
-                                {/* Description */}
-                                <p className="leading-relaxed mb-5 text-slate-600">
-                                    {current.description}
+                                <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-10 text-[15px]">
+                                    {currentProduct.description}
                                 </p>
 
                                 {/* Features */}
-                                {current.features.length > 0 && (
-                                    <div className="mb-5">
-                                        <h4 className="font-bold text-slate-900 mb-2.5 !text-base">
-                                            Features
+                                {currentProduct.features.length > 0 && (
+                                    <div className="mb-9">
+                                        <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4 tracking-wide">
+                                            FEATURES
                                         </h4>
-                                        <ul className="space-y-1.5">
-                                            {current.features.map((feature, i) => (
-                                                <li key={i} className="flex items-start gap-2 !text-sm text-slate-600">
-                                                    <svg className="w-4 h-4 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                                    </svg>
-                                                    {feature}
+                                        <ul className="space-y-4">
+                                            {currentProduct.features.map((feature, index) => (
+                                                <li key={index} className="flex items-start gap-3 text-slate-600 dark:text-slate-400">
+                                                    <CheckCircle className="w-5 h-5 text-purple-600 dark:text-purple-500 mt-0.5 flex-shrink-0" />
+                                                    <span className="text-[15px] leading-relaxed">{feature}</span>
                                                 </li>
                                             ))}
                                         </ul>
                                     </div>
                                 )}
 
-                                {/* Tech stack */}
-                                {hasTech && (
-                                    <div className="mb-5">
-                                        <h4 className="font-bold text-slate-900 mb-2.5 !text-base">
-                                            Tech Stack
-                                        </h4>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
-                                            {techRows.map(({ label, value }) => (
-                                                <div key={label} className="!text-sm text-slate-600">
-                                                    <span className="font-semibold text-slate-700">{label}:</span>{' '}
-                                                    {value}
-                                                </div>
-                                            ))}
-                                        </div>
+                                {/* Tech Stack */}
+                                <div className="mb-10">
+                                    <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4 tracking-wide">
+                                        TECH STACK
+                                    </h4>
+                                    <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+                                        {currentProduct.techStack.architecture && (
+                                            <div>
+                                                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Architecture</p>
+                                                <p className="text-slate-800 dark:text-slate-200 font-semibold">
+                                                    {currentProduct.techStack.architecture}
+                                                </p>
+                                            </div>
+                                        )}
+                                        {currentProduct.techStack.frontend && (
+                                            <div>
+                                                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Frontend</p>
+                                                <p className="text-slate-800 dark:text-slate-200 font-semibold">
+                                                    {currentProduct.techStack.frontend}
+                                                </p>
+                                            </div>
+                                        )}
+                                        {currentProduct.techStack.middleware && (
+                                            <div>
+                                                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Middleware</p>
+                                                <p className="text-slate-800 dark:text-slate-200 font-semibold">
+                                                    {currentProduct.techStack.middleware}
+                                                </p>
+                                            </div>
+                                        )}
+                                        {currentProduct.techStack.database && (
+                                            <div>
+                                                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Database</p>
+                                                <p className="text-slate-800 dark:text-slate-200 font-semibold">
+                                                    {currentProduct.techStack.database}
+                                                </p>
+                                            </div>
+                                        )}
                                     </div>
-                                )}
+                                </div>
+                            </div>
 
-                                {/* Pricing */}
-                                {current.pricing && (
-                                    <div className="pt-4 border-t border-slate-100">
-                                        <h4 className="font-bold text-slate-900 mb-1 !text-base">Pricing</h4>
-                                        <div className="text-2xl font-black text-green-600">
-                                            {current.pricing}
-                                        </div>
-                                    </div>
-                                )}
+                            {/* Pricing Badge */}
+                            <div className="mt-auto flex justify-end pt-6">
+                                <div className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 rounded-2xl shadow-lg shadow-purple-500/30 font-semibold transition-all duration-300 hover:scale-105 active:scale-95">
+                                    <span className="text-lg">{currentProduct.pricing}</span>
+                                    <div className="w-px h-5 bg-white/40"></div>
+                                    <span className="text-sm opacity-90">Pricing</span>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
-                </AnimatePresence>
+                </div>
 
-                {/* ── Dot indicators ──────────────────────────────── */}
-                {total > 1 && (
-                    <div className="flex justify-center items-center gap-2">
-                        {productsList.map((_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => goTo(index)}
-                                aria-label={`Go to product ${index + 1}`}
-                                className={`h-2.5 rounded-full transition-all duration-300 ${
-                                    currentSlide === index
-                                        ? 'w-8 bg-gradient-to-r from-blue-600 to-purple-600'
-                                        : 'w-2.5 bg-slate-300 hover:bg-slate-400'
-                                }`}
-                            />
-                        ))}
+                {/* Bottom Dots */}
+                {productsList.length > 1 && (
+                    <div className="flex justify-center mt-12">
+                        <div className="flex gap-3">
+                            {productsList.map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setCurrentSlide(index)}
+                                    className={`h-3 rounded-full transition-all duration-300 ${
+                                        currentSlide === index
+                                            ? 'bg-gradient-to-r from-purple-600 to-blue-600 w-10'
+                                            : 'bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 w-3'
+                                    }`}
+                                    aria-label={`Go to product ${index + 1}`}
+                                />
+                            ))}
+                        </div>
                     </div>
                 )}
-
             </div>
         </section>
     );
-}
+};
+
+export default ProductsSection;

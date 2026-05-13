@@ -18,6 +18,7 @@ class Service extends Model implements HasMedia
         'title',
         'description',
         'icon',
+        'icon_color',
         'image',
         'category',
         'features',

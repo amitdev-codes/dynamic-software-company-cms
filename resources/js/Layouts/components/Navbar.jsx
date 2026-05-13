@@ -127,29 +127,29 @@ export default function Navbar({ title, theme, toggleTheme, language, setLanguag
 
                                 {/* Menu Items */}
                                 <div className="py-1">
-                                    <Link
+                                    {/* <Link
                                         href={route('admin.profile')}
                                         className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                                     >
                                         <ProfileIcon />
                                         <span className="ml-3">{t('profile')}</span>
-                                    </Link>
+                                    </Link> */}
                                     
                                     <Link
-                                        href={route('admin.settings')}
+                                        href={route('admin.settings.index')}
                                         className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                                     >
                                         <SettingsIcon />
                                         <span className="ml-3">{t('settings')}</span>
                                     </Link>
-
+{/* 
                                     <Link
                                         href={route('admin.help')}
                                         className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                                     >
                                         <HelpIcon />
                                         <span className="ml-3">{t('help')}</span>
-                                    </Link>
+                                    </Link> */}
                                 </div>
 
                                 {/* Logout */}

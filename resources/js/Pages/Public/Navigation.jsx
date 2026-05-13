@@ -2,7 +2,14 @@ import { Link } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function Navigation({ menuItems, settings, activeSection, scrollToSection }) {
+export default function Navigation({
+    menuItems,
+    settings,
+    activeSection,
+    scrollToSection,
+    isDarkMode,
+    toggleTheme
+}) {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [hoveredItem, setHoveredItem] = useState(null);
@@ -13,15 +20,10 @@ export default function Navigation({ menuItems, settings, activeSection, scrollT
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    /* ── handle click — contact scrolls to footer ── */
-// In Navigation.jsx — replace handleNavClick
     const handleNavClick = (item) => {
-        const isContact =
-            item.id === 'contact' ||
-            item.label?.toLowerCase() === 'contact us';
+        const isContact = item.id === 'contact' || item.label?.toLowerCase() === 'contact us';
 
         if (isContact) {
-            // redirect to dedicated contact page
             window.location.href = '/contact';
         } else {
             scrollToSection(item.id);
@@ -34,17 +36,16 @@ export default function Navigation({ menuItems, settings, activeSection, scrollT
             <motion.nav
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
                 className={`fixed w-full top-0 z-50 transition-all duration-500 ${
                     isScrolled
-                        ? 'bg-white/95 backdrop-blur-xl shadow-lg shadow-slate-200/50 border-b border-gray-100'
+                        ? 'bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl shadow-lg border-b border-gray-100 dark:border-gray-800'
                         : 'bg-transparent backdrop-blur-sm'
                 }`}
             >
                 <div className="container-landing">
                     <div className="flex justify-between items-center h-16 md:h-18">
 
-                        {/* ── Logo ───────────────────────────────── */}
+                        {/* Logo */}
                         <motion.div
                             whileHover={{ scale: 1.03 }}
                             className="flex items-center gap-2.5 cursor-pointer shrink-0"
@@ -52,13 +53,12 @@ export default function Navigation({ menuItems, settings, activeSection, scrollT
                         >
                             <div className="relative group">
                                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl blur opacity-40 group-hover:opacity-70 transition-opacity" />
-
-                                <div className="relative w-10 h-10 md:w-11 md:h-11 bg-white rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
+                                <div className="relative w-10 h-10 md:w-11 md:h-11 bg-white dark:bg-gray-900 rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
                                     <img
                                         src={
-                                            settings?.logo_light ||
-                                            settings?.favicon ||
-                                            '/images/logo.png'
+                                            isDarkMode
+                                                ? (settings?.logo_dark || settings?.logo_light || '/images/logo-dark.png')
+                                                : (settings?.logo_light || settings?.favicon || '/images/logo.png')
                                         }
                                         alt="logo"
                                         className="w-full h-full object-contain p-1"
@@ -67,27 +67,23 @@ export default function Navigation({ menuItems, settings, activeSection, scrollT
                             </div>
 
                             <div className="flex flex-col leading-tight">
-                                <span className="text-lg md:text-xl font-black bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                                    {settings?.company_name || 'Cloudcoms'}
+                                <span className="text-lg md:text-xl font-black bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+                                    {settings?.company_name || 'CloudCom'}
                                 </span>
-                                                        <span className="text-[10px] md:text-xs text-gray-500 font-semibold tracking-wide">
+                                <span className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 font-semibold tracking-wide">
                                     {settings?.company_slogan || 'Technology Partners'}
                                 </span>
                             </div>
                         </motion.div>
 
                         {/* ── Desktop menu ───────────────────────── */}
-                        <div
-                            className="hidden lg:flex items-center gap-1"
-                            onMouseLeave={() => setHoveredItem(null)}
-                        >
-                            {menuItems?.map((item, index) => {
-                                const isActive = activeSection === item.id;
-                                const isContact =
-                                    item.id === 'contact' ||
-                                    item.label?.toLowerCase() === 'contact us';
 
-                                /* ── Contact Us — pill CTA button ── */
+                        {/* Desktop Menu */}
+                        <div className="hidden lg:flex items-center gap-1" onMouseLeave={() => setHoveredItem(null)}>
+                            {menuItems?.map((item) => {
+                                const isActive = activeSection === item.id;
+                                const isContact = item.id === 'contact' || item.label?.toLowerCase() === 'contact us';
+
                                 if (isContact) {
                                     return (
                                         <motion.button
@@ -95,30 +91,13 @@ export default function Navigation({ menuItems, settings, activeSection, scrollT
                                             onClick={() => handleNavClick(item)}
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.97 }}
-                                            className="ml-3 relative inline-flex items-center gap-2 px-5 py-2 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:shadow-xl transition-all duration-300 overflow-hidden group"
+                                            className="ml-3 relative inline-flex items-center gap-2 px-5 py-2 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all"
                                         >
-                                            {/* shimmer */}
-                                            <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-                                            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                             </svg>
-                                            <span className="relative z-10">{item.label}</span>
+                                            <span>{item.label}</span>
                                         </motion.button>
-                                    );
-                                }
-
-                                /* ── Regular nav items ── */
-                                if (item.route || item.url) {
-                                    return (
-                                        <Link
-                                            key={item.id ?? item.route}
-                                            href={item.route ? route(item.route) : item.url}
-                                            onMouseEnter={() => setHoveredItem(item.id)}
-                                            className="relative px-4 py-2 rounded-lg font-semibold text-sm transition-colors duration-200 group"
-                                        >
-                                            <NavLabel isActive={isActive} label={item.label} />
-                                            <NavBg isActive={isActive} isHovered={hoveredItem === item.id} id={item.id} />
-                                        </Link>
                                     );
                                 }
 
@@ -135,36 +114,35 @@ export default function Navigation({ menuItems, settings, activeSection, scrollT
                                 );
                             })}
 
+                            {/* Theme Toggle Button */}
+                            <button
+                                onClick={toggleTheme}
+                                className="ml-4 w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                                aria-label="Toggle theme"
+                            >
+                                {isDarkMode ? (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                    </svg>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                                    </svg>
+                                )}
+                            </button>
                         </div>
 
                         {/* ── Mobile hamburger ───────────────────── */}
+                        {/* Mobile Hamburger */}
                         <motion.button
                             whileTap={{ scale: 0.92 }}
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="lg:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-blue-300 transition-all duration-200"
-                            aria-label="Toggle menu"
+                            className="lg:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-xl bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 shadow-sm"
                         >
-                            <motion.span
-                                animate={isMobileMenuOpen
-                                    ? { rotate: 45, y: 6 }
-                                    : { rotate: 0, y: 0 }}
-                                transition={{ duration: 0.2 }}
-                                className="w-4.5 h-0.5 bg-slate-700 rounded-full block"
-                            />
-                            <motion.span
-                                animate={isMobileMenuOpen
-                                    ? { opacity: 0, scaleX: 0 }
-                                    : { opacity: 1, scaleX: 1 }}
-                                transition={{ duration: 0.2 }}
-                                className="w-4.5 h-0.5 bg-slate-700 rounded-full block"
-                            />
-                            <motion.span
-                                animate={isMobileMenuOpen
-                                    ? { rotate: -45, y: -6 }
-                                    : { rotate: 0, y: 0 }}
-                                transition={{ duration: 0.2 }}
-                                className="w-4.5 h-0.5 bg-slate-700 rounded-full block"
-                            />
+                            {/* Hamburger animation remains same */}
+                            <motion.span animate={isMobileMenuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }} className="w-4.5 h-0.5 bg-slate-700 dark:bg-gray-300 rounded-full block" />
+                            <motion.span animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }} className="w-4.5 h-0.5 bg-slate-700 dark:bg-gray-300 rounded-full block" />
+                            <motion.span animate={isMobileMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }} className="w-4.5 h-0.5 bg-slate-700 dark:bg-gray-300 rounded-full block" />
                         </motion.button>
                     </div>
                 </div>
@@ -235,6 +213,13 @@ export default function Navigation({ menuItems, settings, activeSection, scrollT
                                         </button>
                                     );
                                 })}
+                                                                {/* Theme toggle in mobile menu */}
+                                <button
+                                    onClick={toggleTheme}
+                                    className="w-full flex items-center gap-3 px-4 py-3 text-left text-sm font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl"
+                                >
+                                    {isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
+                                </button>
                             </div>
                         </motion.div>
                     )}

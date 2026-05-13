@@ -39,10 +39,12 @@ class Setting extends Model implements HasMedia
         'country',
         'business_hours',
         'social_links',
+        'total_visits',
     ];
 
     protected $casts = [
         'social_links' => 'array',
+        'total_visits' => 'integer',
     ];
 
     public function registerMediaCollections(): void
@@ -51,5 +53,21 @@ class Setting extends Model implements HasMedia
         $this->addMediaCollection('logo_dark')->singleFile();
         $this->addMediaCollection('favicon')->singleFile();
         $this->addMediaCollection('og_image')->singleFile();
+    }
+    public static function incrementVisits(): void
+    {
+        // We assume there's only one row in settings (common pattern)
+        $setting = self::first();
+
+        if ($setting) {
+            $setting->increment('total_visits');
+        } else {
+            // Fallback: create the first row if settings table is empty
+            self::create([
+                'company_name' => 'Your Company',
+                'total_visits' => 1,
+                // add other defaults if needed
+            ]);
+        }
     }
 }

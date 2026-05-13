@@ -9,6 +9,9 @@ import ProductsSection from './ProductsSection';
 import ProjectsSection from './ProjectsSection';
 import TestimonialsSection from './TestimonialsSection';
 import Footer from './Footer';
+import LogoTicker from "@/Pages/Public/LogoTicker.jsx";
+import QuestionSection from "@/Pages/Public/QuestionSection.jsx";
+import ComprehensiveSection from "@/Pages/Public/ComprehensiveSection.jsx";
 
 export default function Landing({
                                     menuItems,
@@ -21,7 +24,36 @@ export default function Landing({
                                     settings,
                                 }) {
     const [activeSection, setActiveSection] = useState('home');
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
+    // Load theme from localStorage
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            setIsDarkMode(true);
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, []);
+
+    // Toggle theme
+    const toggleTheme = () => {
+        const newMode = !isDarkMode;
+        setIsDarkMode(newMode);
+
+        if (newMode) {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        }
+    };
+
+    // Scroll handler
     useEffect(() => {
         const handleScroll = () => {
             const sections = menuItems?.map(item => item.id) || [];
@@ -41,7 +73,6 @@ export default function Landing({
     }, [menuItems]);
 
     const scrollToSection = (id) => {
-        // 'contact' and 'footer' both scroll to the footer element
         const targetId = id === 'contact' ? 'footer' : id;
         const element = document.getElementById(targetId);
         if (element) {
@@ -56,26 +87,30 @@ export default function Landing({
         <>
             <Head title="CloudCom - Your Technology Partner" />
 
-            <div className="min-h-screen bg-white">
-
+            <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
                 <Navigation
                     menuItems={menuItems}
                     settings={settings}
                     activeSection={activeSection}
                     scrollToSection={scrollToSection}
+                    isDarkMode={isDarkMode}
+                    toggleTheme={toggleTheme}
                 />
 
                 <HeroSection
                     scrollToSection={scrollToSection}
                     settings={settings}
                 />
-
+                <LogoTicker />
                 <AboutSection />
 
+                <QuestionSection />
+
                 <ServicesSection
-                    defaultServices={defaultServices}
+                    services={defaultServices}
                     comprehensiveServices={comprehensiveServices}
                 />
+                <ComprehensiveSection  comprehensiveServices={comprehensiveServices}/>
 
                 <ProductsSection products={products} />
 
@@ -92,7 +127,6 @@ export default function Landing({
                     services={services}
                     scrollToSection={scrollToSection}
                 />
-
             </div>
         </>
     );

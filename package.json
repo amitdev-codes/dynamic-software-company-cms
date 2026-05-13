@@ -56,6 +56,7 @@
         "shadcn": "^3.8.0",
         "sweetalert2": "^11.26.23",
         "sweetalert2-react-content": "^5.1.2",
+        "swiper": "^12.1.3",
         "tailwind-merge": "^3.4.0",
         "tailwindcss-animate": "^1.0.7",
         "toast": "^0.5.4",

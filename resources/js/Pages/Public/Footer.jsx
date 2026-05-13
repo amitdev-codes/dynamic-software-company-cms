@@ -55,6 +55,7 @@ export default function Footer({ settings, menuItems, services, scrollToSection 
                                     <p className="!text-xs !text-gray-400 leading-tight">
                                         {settings.company_slogan}
                                     </p>
+
                                 </div>
                             </div>
 
@@ -218,6 +219,9 @@ export default function Footer({ settings, menuItems, services, scrollToSection 
                             <p className="!text-gray-400 !text-xs sm:!text-sm text-center sm:text-left">
                                 &copy; {currentYear} {settings.company_name}. All rights reserved.
                             </p>
+                            <div className="text-xs text-gray-500 mt-4">
+                                🌍  Total sites visited: <span className="font-mono text-blue-400">{Number(settings.total_visits).toLocaleString()} visits</span>
+                            </div>
                             <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
                                 {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((label) => (
                                     <a key={label} href="#"

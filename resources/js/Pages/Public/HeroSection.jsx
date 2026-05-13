@@ -5,249 +5,322 @@ export default function HeroSection({ scrollToSection, settings }) {
     return (
         <section
             id="home"
-            className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50"
+            className="relative min-h-screen flex items-center overflow-hidden
+                       bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50
+                       dark:from-gray-950 dark:via-slate-900 dark:to-indigo-950
+                       transition-colors duration-500"
         >
             {/* Background Pattern */}
-            <div className="absolute inset-0 bg-grid-pattern opacity-[0.02]" />
+            <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] dark:opacity-[0.04]" />
 
-            {/* Animated Orbs */}
+            {/* Animated Orbs - Better for dark mode */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute -top-40 -right-40 w-72 h-72 sm:w-96 sm:h-96 bg-blue-400 rounded-full mix-blend-multiply blur-3xl opacity-20 animate-blob" />
-                <div className="absolute -bottom-40 -left-40 w-72 h-72 sm:w-96 sm:h-96 bg-purple-400 rounded-full mix-blend-multiply blur-3xl opacity-20 animate-blob animation-delay-2000" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 sm:w-96 sm:h-96 bg-cyan-400 rounded-full mix-blend-multiply blur-3xl opacity-20 animate-blob animation-delay-4000" />
+                <div className="absolute -top-40 -right-40 w-72 h-72 sm:w-96 sm:h-96
+                              bg-blue-400/30 dark:bg-blue-500/20
+                              rounded-full mix-blend-multiply blur-3xl animate-blob" />
+
+                <div className="absolute -bottom-40 -left-40 w-72 h-72 sm:w-96 sm:h-96
+                              bg-purple-400/30 dark:bg-purple-500/20
+                              rounded-full mix-blend-multiply blur-3xl animate-blob animation-delay-2000" />
+
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 sm:w-96 sm:h-96
+                              bg-cyan-400/30 dark:bg-cyan-500/20
+                              rounded-full mix-blend-multiply blur-3xl animate-blob animation-delay-4000" />
             </div>
 
-            {/* ── Main Content ── */}
-            <div className="relative w-full container-landing py-10 lg:py-0">
+            {/* Main Content */}
+            <div className="relative w-full mb-20 container-landing py-10 lg:py-0">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-                    {/* ══ LEFT ══ */}
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, ease: 'easeOut' }}
-                        className="text-left space-y-7 sm:space-y-8"
+                        className="text-left space-y-6 sm:space-y-7 font-sans"
                     >
-                        {/* ── Tagline badge ── */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 16 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.15, duration: 0.6 }}
-                            className="inline-flex items-center gap-2.5 bg-white/80 backdrop-blur-sm border border-blue-200/70 px-4 py-2 rounded-full shadow-sm shadow-blue-100"
-                        >
-                            <span className="relative flex h-2 w-2 shrink-0">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
-                            </span>
-                            <span className="text-xs sm:text-sm font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent tracking-wide">
-                                {settings.tagline}
-                            </span>
-                        </motion.div>
 
-                        {/* ── Heading ── */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.25, duration: 0.8 }}
-                            className="space-y-2"
-                        >
+                        {/* TAGLINE */}
+                        <p className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-500 dark:text-blue-400">
+                            Your Technology Partner
+                        </p>
 
-                            <p className="!text-[10px] sm:!text-xs font-bold tracking-[0.2em] uppercase !text-blue-500 mb-2">
-                                — Your Technology Partner
+                        {/* HEADING */}
+                        <div className="space-y-2">
+                            <p className="text-base sm:text-lg text-slate-500 dark:text-gray-400 font-medium">
+                                The best way to escape
                             </p>
 
-                            <h1 className="font-black leading-tight tracking-tight">
-                                {/* First line — lighter, smaller */}
-                                <span className="block !text-lg sm:!text-xl md:!text-2xl font-medium tracking-wide text-slate-400"
-                                      style={{ fontFamily: 'Inter, sans-serif' }}>
-        The best way to escape
-    </span>
-
-                                {/* Hero word — gradient, prominent but not oversized */}
-                                <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent
-                     !text-4xl sm:!text-5xl md:!text-6xl font-black tracking-tight leading-none py-1">
-        Problems
-    </span>
-
-                                {/* Close line — matches first line weight */}
-                                <span className="block !text-lg sm:!text-xl md:!text-2xl font-medium tracking-wide text-slate-600"
-                                      style={{ fontFamily: 'Inter, sans-serif' }}>
-        is to solve them.
-    </span>
+                            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight
+                       bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500
+                       dark:from-blue-400 dark:via-purple-400 dark:to-pink-400
+                       bg-clip-text text-transparent">
+                                Problems
                             </h1>
 
-                            {/* Quote */}
-                            <p className="mt-3 !text-xs italic !text-slate-400" style={{ fontFamily: 'Inter, sans-serif' }}>
+                            <p className="text-base sm:text-lg text-slate-600 dark:text-gray-300 font-medium">
+                                is to solve them.
+                            </p>
+
+                            <p className="text-xs italic text-slate-400 dark:text-gray-500">
                                 ~ Brendan Francis
                             </p>
-                        </motion.div>
+                        </div>
 
-                        {/* ── Description ── */}
+
+
+                        {/* DESCRIPTION */}
                         <motion.p
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.45, duration: 0.8 }}
-                            className="!font-[Trocchi,serif] !text-base sm:!text-lg text-slate-600 leading-relaxed max-w-md"
+                            className="text-base sm:text-lg text-slate-600 dark:text-gray-400 leading-relaxed max-w-lg"
                         >
                             {settings.description}
                         </motion.p>
 
-                        {/* ── CTA Buttons ── */}
+                        {/* CTA */}
                         <motion.div
                             initial={{ opacity: 0, y: 16 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.6, duration: 0.6 }}
+                            transition={{ delay: 0.55, duration: 0.6 }}
                             className="flex flex-col sm:flex-row gap-3 sm:gap-4"
                         >
-                            <Link href="/contact" className="btn-primary group">
+                            <Link
+                                href="/contact"
+                                className="inline-flex items-center justify-center gap-2 px-6 py-3
+                       bg-gradient-to-r from-blue-600 to-purple-600
+                       hover:from-blue-700 hover:to-purple-700
+                       text-white text-sm font-semibold rounded-xl
+                       shadow-lg shadow-blue-500/25
+                       transition-all duration-300 hover:scale-[1.02] group"
+                            >
                                 Get Started
                                 <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg>
                             </Link>
 
-                            <button onClick={() => scrollToSection('services')} className="btn-secondary group">
+                            <button
+                                onClick={() => scrollToSection('services')}
+                                className="inline-flex items-center justify-center gap-2 px-6 py-3
+                       border border-slate-300 dark:border-gray-700
+                       hover:bg-slate-100 dark:hover:bg-gray-800
+                       text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-xl
+                       transition-all duration-300 group"
+                            >
                                 Explore Services
-                                <svg className="w-4 h-4 transition-transform group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                                </svg>
                             </button>
                         </motion.div>
+                        {/* STATS BADGES */}
+                        {/* STATS (Hero Style Cards) */}
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-6">
 
-                        {/* ── Stats ── */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 16 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.8, duration: 0.6 }}
-                            className="grid grid-cols-3 gap-3 sm:gap-6 pt-6 sm:pt-8 border-t border-slate-200/70"
-                        >
                             {[
-                                { value: settings.years_of_experience, label: 'Years Experience', icon: '🏆' },
-                                { value: settings.projects_delivered,   label: 'Projects Done',    icon: '🚀' },
-                                { value: '50+',                         label: 'Happy Clients',    icon: '😊' },
+                                {
+                                    value: settings.years_of_experience,
+                                    label: 'Years Experience',
+                                    icon: '📅',
+                                    color: 'from-blue-500 to-cyan-500'
+                                },
+                                {
+                                    value: settings.projects_delivered,
+                                    label: 'Projects Done',
+                                    icon: '📦',
+                                    color: 'from-purple-500 to-pink-500'
+                                },
+                                {
+                                    value: '50+',
+                                    label: 'Happy Clients',
+                                    icon: '👥',
+                                    color: 'from-cyan-500 to-blue-500'
+                                },
                             ].map((stat, i) => (
                                 <motion.div
                                     key={i}
-                                    whileHover={{ y: -3 }}
-                                    transition={{ duration: 0.2 }}
-                                    className="text-center group cursor-default"
+                                    whileHover={{ y: -4, scale: 1.02 }}
+                                    className="flex items-center gap-3 px-4 py-3 rounded-xl
+                       bg-white/70 dark:bg-gray-800/70
+                       backdrop-blur-md border border-slate-200 dark:border-gray-700
+                       shadow-sm transition-all"
                                 >
-                                    <div className="text-xl sm:text-2xl mb-1">
+                                    {/* ICON */}
+                                    <div
+                                        className={`w-10 h-10 rounded-lg flex items-center justify-center
+                            bg-gradient-to-br ${stat.color}
+                            text-white text-sm shadow-md`}
+                                    >
                                         {stat.icon}
                                     </div>
-                                    <div className="text-xl sm:text-2xl md:text-3xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight">
-                                        {stat.value}
-                                    </div>
-                                    <div className="text-[10px] sm:text-xs text-slate-500 font-medium leading-tight mt-0.5">
-                                        {stat.label}
+
+                                    {/* TEXT */}
+                                    <div className="flex flex-col leading-tight">
+                <span className="text-lg font-bold text-slate-900 dark:text-white">
+                    {stat.value}
+                </span>
+                                        <span className="text-xs text-slate-500 dark:text-gray-400">
+                    {stat.label}
+                </span>
                                     </div>
                                 </motion.div>
                             ))}
-                        </motion.div>
+                        </div>
                     </motion.div>
 
-                    {/* ══ RIGHT ══ */}
+
+
+                    {/* RIGHT SIDE - Visual */}
                     <motion.div
                         initial={{ opacity: 0, x: 30 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.35, duration: 1 }}
-                        className="relative hidden md:block"
+                        className="relative hidden md:flex items-center justify-center"
                     >
-                        <div className="relative">
+                        {/* CENTER WRAPPER */}
+                        <div className="relative flex items-center justify-center">
 
-                            {/* Main image frame */}
-                            <div className="relative bg-gradient-to-br from-blue-100 to-purple-100 rounded-3xl p-6 md:p-8 shadow-2xl">
-                                <div className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-inner">
-                                    <img
-                                        src="/image/slider1.png"
-                                        alt="Cloud Com Solutions"
-                                        className="w-full h-full object-contain"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-purple-400/10" />
-                                </div>
+                            {/* IMAGE */}
+                            <img
+                                src="/image/slider1.png"
+                                alt="Cloud Com Solutions"
+                                className="w-auto h-auto object-contain z-10 p-10"
+                            />
 
-                                {/* Floating card — top right */}
-                                <motion.div
-                                    animate={{ y: [0, -10, 0] }}
-                                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                                    className="absolute -top-5 -right-5 md:-top-6 md:-right-6 bg-white rounded-2xl p-3 md:p-4 shadow-xl border border-blue-100"
-                                >
-                                    <div className="flex items-center gap-2 md:gap-3">
-                                        <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shrink-0">
-                                            <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <div className="text-[10px] text-slate-400 font-medium">Development</div>
-                                            <div className="text-xs md:text-sm font-bold text-slate-900">Expert Team</div>
-                                        </div>
-                                    </div>
-                                </motion.div>
-
-                                {/* Floating card — bottom left */}
-                                <motion.div
-                                    animate={{ y: [0, 10, 0] }}
-                                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                                    className="absolute -bottom-5 -left-5 md:-bottom-6 md:-left-6 bg-white rounded-2xl p-3 md:p-4 shadow-xl border border-purple-100"
-                                >
-                                    <div className="flex items-center gap-2 md:gap-3">
-                                        <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shrink-0">
-                                            <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <div className="text-[10px] text-slate-400 font-medium">Quality</div>
-                                            <div className="text-xs md:text-sm font-bold text-slate-900">100% Assured</div>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            </div>
-
-                            {/* Tech stack grid */}
+                            {/* TOP LEFT */}
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.85 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 1.1, duration: 0.7 }}
-                                className="absolute -bottom-8 -right-8 md:-bottom-10 md:-right-10 bg-white rounded-2xl p-3 md:p-4 shadow-2xl border border-slate-100"
+                                animate={{ y: [0, -10, 0] }}
+                                transition={{ duration: 3, repeat: Infinity }}
+                                className="absolute -top-10 -left-10
+           -translate-x-full -translate-y-full
+           bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-xl border"
                             >
-                                <p className="text-[9px] font-bold tracking-widest uppercase text-slate-400 mb-2 text-center">
+                                <div className="flex items-start gap-3">
+                                    <div
+                                        className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm">
+                                        ⚡
+                                    </div>
+                                    <div>
+                                        <p className="text-[11px] font-bold text-slate-900 dark:text-white leading-snug"
+                                           style={{fontFamily: "'DM Sans', sans-serif"}}>
+                                            Simplifying IT with innovative solutions.
+                                        </p>
+                                        <p className="text-[10px] text-slate-400 dark:text-gray-400 mt-0.5 leading-snug"
+                                           style={{fontFamily: "'DM Sans', sans-serif"}}>
+                                            Your trusted digital partner.
+                                        </p>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* TOP RIGHT */}
+                            <motion.div
+                                animate={{ y: [0, -10, 0] }}
+                                transition={{ duration: 3, repeat: Infinity, delay: 0.3 }}
+                                className="absolute -top-10 -right-10
+           translate-x-full -translate-y-full
+           bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-xl border"
+                            >
+                                <div className="flex items-center gap-2 md:gap-3">
+                                    <div
+                                        className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                                        <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none"
+                                             stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div
+                                            className="text-[10px] text-slate-400 dark:text-gray-400 font-medium">Quality
+                                        </div>
+                                        <div
+                                            className="text-xs md:text-sm font-bold text-slate-900 dark:text-white">100%
+                                            Assured
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* BOTTOM LEFT */}
+                            <motion.div
+                                animate={{ y: [0, 10, 0] }}
+                                transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
+                                className="absolute -bottom-10 -left-10
+           -translate-x-full translate-y-full
+           bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-xl border">
+                                <div className="flex items-center gap-2 md:gap-3">
+                                    <div
+                                        className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                                        <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none"
+                                             stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div
+                                            className="text-[10px] text-slate-400 dark:text-gray-400 font-medium">Development
+                                        </div>
+                                        <div
+                                            className="text-xs md:text-sm font-bold text-slate-900 dark:text-white">Expert
+                                            Team
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* BOTTOM RIGHT */}
+                            <motion.div
+                                animate={{ y: [0, 10, 0] }}
+                                transition={{ duration: 3, repeat: Infinity, delay: 0.7 }}
+                                className="absolute -bottom-10 -right-12
+           translate-x-full translate-y-full
+           bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-xl border"
+                            >
+                                <p className="text-[9px] font-bold tracking-widest uppercase text-slate-400 dark:text-gray-400 mb-2 text-center">
                                     Tech Stack
                                 </p>
                                 <div className="grid grid-cols-3 gap-1.5 md:gap-2">
+                                    {/* Your tech items remain same - just added dark mode where needed */}
                                     {[
-                                        { name: 'Java',       color: 'from-orange-400 to-red-500',  img: '/image/java.png'     },
-                                        { name: '.NET',       color: 'from-blue-400 to-blue-600',   img: '/image/dotnet.png'   },
-                                        { name: 'Laravel',    color: 'from-red-500 to-orange-500',  img: '/image/php.png'  },
-                                        { name: 'MySQL',      color: 'from-cyan-400 to-blue-500',   img: '/image/mysql.png'    },
-                                        { name: 'Oracle',     color: 'from-red-400 to-orange-500',  img: '/image/oracle.png'   },
-                                        { name: 'PostgreSQL', color: 'from-blue-500 to-indigo-600', img: '/image/postgres.png' },
+                                        { name: 'Java',       bg: 'bg-[#ED8B00]', img: '/image/java.png'     },  // Java Orange (official primary)
+                                        { name: '.NET',       bg: 'bg-[#512BD4]', img: '/image/dotnet.png'   },  // .NET Purple (Microsoft's common .NET branding)
+                                        { name: 'Laravel',    bg: 'bg-[#FF2D20]', img: '/image/php.png'      },  // Laravel Red (official)
+                                        { name: 'MySQL',      bg: 'bg-[#00758F]', img: '/image/mysql.png'    },  // MySQL Dark Blue (official)
+                                        { name: 'Oracle',     bg: 'bg-[#C74634]', img: '/image/oracle.png'   },  // Oracle Red (official)
+                                        { name: 'PostgreSQL', bg: 'bg-[#336791]', img: '/image/postgres.png' },  // PostgreSQL Blue (official base blue)
                                     ].map((tech, i) => (
                                         <motion.div
                                             key={i}
-                                            initial={{ opacity: 0, scale: 0 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ delay: 1.3 + i * 0.08, duration: 0.4 }}
                                             whileHover={{ scale: 1.15, rotate: 4 }}
-                                            className={`w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br ${tech.color} flex items-center justify-center shadow-md cursor-pointer`}
+                                            className={`w-10 h-10 md:w-12 md:h-12 rounded-xl ${tech.bg}
+            flex items-center justify-center shadow-md cursor-pointer`}
                                             title={tech.name}
                                         >
-                                            <img src={tech.img} alt={tech.name} className="w-6 h-6 md:w-7 md:h-7 object-contain" />
+                                            <img
+                                                src={tech.img}
+                                                alt={tech.name}
+                                                className="w-6 h-6 md:w-7 md:h-7 object-contain"
+                                            />
                                         </motion.div>
                                     ))}
                                 </div>
                             </motion.div>
 
-                            {/* Glow */}
-                            <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-br from-blue-300 to-purple-300 rounded-3xl blur-3xl opacity-20" />
                         </div>
                     </motion.div>
+
+
+
 
                 </div>
             </div>
 
-            {/* Scroll indicator */}
+
+
+
+
+
+            {/* Scroll Indicator */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -260,10 +333,10 @@ export default function HeroSection({ scrollToSection, settings }) {
                     onClick={() => scrollToSection('about')}
                     className="flex flex-col items-center gap-2 group cursor-pointer"
                 >
-                    <span className="!text-xs !text-slate-400 font-medium tracking-widest uppercase group-hover:!text-slate-600 transition-colors">
+                    <span className="text-xs text-slate-400 dark:text-gray-400 font-medium tracking-widest uppercase group-hover:text-slate-600 dark:group-hover:text-gray-300 transition-colors">
                         Scroll to explore
                     </span>
-                    <div className="w-5 h-9 rounded-full border-2 border-slate-300 group-hover:border-blue-400 transition-colors flex items-start justify-center pt-1.5">
+                    <div className="w-5 h-9 rounded-full border-2 border-slate-300 dark:border-gray-600 group-hover:border-blue-400 transition-colors flex items-start justify-center pt-1.5">
                         <motion.div
                             animate={{ y: [0, 10, 0] }}
                             transition={{ duration: 1.5, repeat: Infinity }}
@@ -272,7 +345,6 @@ export default function HeroSection({ scrollToSection, settings }) {
                     </div>
                 </motion.button>
             </motion.div>
-
         </section>
     );
 }

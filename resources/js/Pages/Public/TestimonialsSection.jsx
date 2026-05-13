@@ -1,178 +1,249 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef, useEffect, useRef as useScrollRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react';
 
 export default function TestimonialsSection({ settings, testimonials }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
-    const scrollRef = useRef(null);
-
+    const [currentIndex, setCurrentIndex] = useState(0);
     const count = testimonials?.length || 0;
+    const totalGroups = Math.ceil(count / 4);
 
-    /* ── Auto-scroll ───────────────────────────────────────── */
     useEffect(() => {
-        const el = scrollRef.current;
-        if (!el || count === 0) return;
-
-        let animId;
-        let paused = false;
-
-        const step = () => {
-            if (!paused) {
-                el.scrollLeft += 0.6;
-                // loop: when we reach halfway (cloned list), reset silently
-                if (el.scrollLeft >= el.scrollWidth / 2) {
-                    el.scrollLeft = 0;
-                }
-            }
-            animId = requestAnimationFrame(step);
-        };
-
-        animId = requestAnimationFrame(step);
-
-        el.addEventListener('mouseenter', () => { paused = true; });
-        el.addEventListener('mouseleave', () => { paused = false; });
-        el.addEventListener('touchstart',  () => { paused = true; });
-        el.addEventListener('touchend',    () => { paused = false; });
-
-        return () => cancelAnimationFrame(animId);
+        if (count === 0) return;
+        const timeoutId = setTimeout(() => {
+            const intervalId = setInterval(() => {
+                setCurrentIndex(prev => (prev + 1) % Math.ceil(count / 4));
+            }, 5000);
+            return () => clearInterval(intervalId);
+        }, 2000);
+        return () => clearTimeout(timeoutId);
     }, [count]);
 
-    /* ── Card ──────────────────────────────────────────────── */
-    const Card = ({ testimonial }) => (
-        <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col group overflow-hidden"
-             style={{ width: '300px', height: '220px', flexShrink: 0 }}>
+    const prevSlide = () => setCurrentIndex(prev => (prev === 0 ? totalGroups - 1 : prev - 1));
+    const nextSlide = () => setCurrentIndex(prev => (prev + 1) % totalGroups);
 
-            {/* Quote icon */}
-            <div className="absolute -top-3 -left-3 w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg z-10">
-                <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                </svg>
-            </div>
+    const getInitials = (name = '') =>
+        name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
-            <div className="relative z-10 flex flex-col h-full p-5">
+    const avatarGradients = [
+        'from-indigo-500 to-purple-600',
+        'from-blue-500 to-cyan-500',
+        'from-violet-500 to-pink-500',
+        'from-purple-500 to-indigo-600',
+    ];
+
+    const getVisibleTestimonials = () => {
+        const startIndex = currentIndex * 4;
+        const visible = testimonials.slice(startIndex, Math.min(startIndex + 4, count));
+        const filled = [...visible];
+        while (filled.length < 4 && testimonials.length > 0) {
+            filled.push({ ...testimonials[filled.length % testimonials.length], isFiller: true });
+        }
+        return filled;
+    };
+
+    const Card = ({ testimonial, index }) => (
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 30 }}
+            transition={{ duration: 0.5, delay: index * 0.08 }}
+            className="group relative flex flex-col h-[380px]"
+        >
+            <div className="
+                relative flex flex-col h-full rounded-3xl p-8 border
+                transition-all duration-500 hover:-translate-y-2
+                bg-white border-slate-200
+                shadow-[0_2px_16px_rgba(0,0,0,0.06)]
+                hover:bg-slate-50 hover:border-indigo-300
+                hover:shadow-[0_12px_40px_rgba(99,102,241,0.12)]
+                dark:bg-white/5 dark:border-white/10 dark:backdrop-blur-xl
+                dark:hover:bg-white/[0.08] dark:hover:border-indigo-500/30
+                dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)]
+            ">
+                {/* Decorative quote */}
+                <Quote className="
+                    absolute top-7 right-8 w-10 h-10 rotate-180 transition-colors duration-500
+                    text-indigo-100 group-hover:text-indigo-200
+                    dark:text-white/[0.05] dark:group-hover:text-white/[0.09]
+                " />
+
                 {/* Stars */}
-                <div className="flex gap-0.5 mb-3">
+                <div className="flex gap-1 mb-6 flex-shrink-0">
                     {[...Array(5)].map((_, i) => (
-                        <svg key={i}
-                             className={`w-3.5 h-3.5 ${i < (testimonial.rating || 5) ? 'text-yellow-400' : 'text-gray-500'}`}
-                             fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
+                        <Star
+                            key={i}
+                            className={`w-3.5 h-3.5 flex-shrink-0 ${
+                                i < (testimonial.rating || 5)
+                                    ? 'text-amber-400 fill-amber-400'
+                                    : 'text-slate-200 dark:text-white/20'
+                            }`}
+                        />
                     ))}
                 </div>
 
-                {/* Quote — fixed height, clamps overflow with fade */}
-                <div className="relative flex-1 overflow-hidden">
-                    <p className="text-white/90 text-sm italic leading-relaxed">
-                        "{testimonial.content}"
-                    </p>
-                    {/* bottom fade so cut-off text looks intentional */}
-                    <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-slate-900/60 to-transparent" />
-                </div>
+                {/* Quote text */}
+                <blockquote
+                    className="flex-1 text-[0.95rem] leading-[1.75] italic mb-6 text-slate-600 dark:text-white/85"
+                    style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 6,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                    }}
+                >
+                    "{testimonial.content}"
+                </blockquote>
 
-                {/* Author — always pinned to bottom */}
-                <div className="flex items-center gap-2 pt-3 mt-2 border-t border-white/10 shrink-0">
-                    <div className={`w-8 h-8 rounded-full ${testimonial.avatar_color || 'bg-gradient-to-br from-blue-400 to-purple-400'} flex items-center justify-center font-bold text-white text-xs shadow-lg shrink-0`}>
-                        {testimonial.name.charAt(0)}
+                {/* Author */}
+                <div className="flex items-center gap-3 mt-auto pt-5 border-t flex-shrink-0 border-slate-100 dark:border-white/10">
+                    <div className={`w-[52px] h-[52px] rounded-full p-[3px] bg-gradient-to-br flex-shrink-0 ${avatarGradients[index % avatarGradients.length]}`}>
+                        {testimonial.avatar ? (
+                            <img
+                                src={testimonial.avatar}
+                                alt={testimonial.name}
+                                className="w-full h-full rounded-full object-cover"
+                            />
+                        ) : (
+                            <div className="w-full h-full rounded-full flex items-center justify-center bg-white dark:bg-[#0d0b2e]">
+                                <span className="text-sm font-black tracking-tight text-indigo-700 dark:text-white/80">
+                                    {getInitials(testimonial.name)}
+                                </span>
+                            </div>
+                        )}
                     </div>
                     <div className="min-w-0">
-                        <h4 className="font-bold text-white text-sm truncate">{testimonial.name}</h4>
-                        <p className="text-blue-300 text-xs truncate">{testimonial.role}</p>
+                        <h5 className="font-bold text-[1rem] leading-tight truncate transition-colors duration-300 text-slate-900 group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-300">
+                            {testimonial.name}
+                        </h5>
+                        <span className="text-[0.8rem] font-medium text-slate-400 dark:text-white/50">
+                            {testimonial.role || 'Customer'}
+                        </span>
                     </div>
                 </div>
             </div>
-
-            {/* Hover overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 rounded-2xl transition-all duration-500" />
-        </div>
+        </motion.div>
     );
 
     return (
-        <section id="testimonials" className="section-gap bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+        <section
+            id="testimonials"
+            className="
+                py-[120px] relative overflow-hidden
+                bg-gradient-to-br from-[#f8faff] to-[#eef2ff]
+                dark:bg-none
+            "
+            style={{
+                // only applied in dark — light bg is handled by Tailwind above
+                background: undefined,
+            }}
+        >
+            {/*
+                Dark mode needs the radial gradient which Tailwind can't do inline,
+                so we use a pseudo-element via a sibling div instead.
+            */}
+            <div className="absolute inset-0 -z-10 hidden dark:block"
+                 style={{ background: 'radial-gradient(circle at center, #1e3a8a 0%, #0d0b2e 100%)' }}
+            />
 
-            {/* Blobs */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none">
-                <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
-                <div className="absolute top-40 right-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
-                <div className="absolute bottom-20 left-1/2 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
+            {/* Ambient blobs */}
+            <div className="absolute inset-0 pointer-events-none opacity-30">
+                <div className="absolute top-1/4 left-10 w-[400px] h-[400px] rounded-full blur-3xl bg-indigo-200/60 dark:bg-indigo-500/20" />
+                <div className="absolute bottom-1/4 right-10 w-[500px] h-[500px] rounded-full blur-3xl bg-purple-200/50 dark:bg-purple-500/20" />
             </div>
-            <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
 
-            <div ref={ref} className="relative z-10">
+            <div className="container mx-auto px-6 lg:px-12 relative z-10" ref={ref}>
 
-                {/* ── Header ─────────────────────────────────── */}
+                {/* Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-12 container-landing"
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.7, ease: 'easeOut' }}
+                    className="text-center mb-16 max-w-3xl mx-auto"
                 >
-                    <span className="inline-block text-blue-400 font-semibold text-sm tracking-wider uppercase mb-4">
-                        Client Testimonials
-                    </span>
-                    <h2 className="font-black !text-white mb-4">
+                    <div className="flex items-center justify-center gap-4 mb-6">
+                        <span className="h-px w-14 bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent dark:via-indigo-400/60" />
+                        <span className="
+                            uppercase tracking-[3px] text-xs font-bold px-5 py-2 rounded-full border
+                            text-indigo-600 bg-indigo-50 border-indigo-200
+                            dark:text-indigo-400 dark:bg-indigo-500/10 dark:border-indigo-500/20
+                        ">
+                            Client Testimonials
+                        </span>
+                        <span className="h-px w-14 bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent dark:via-indigo-400/60" />
+                    </div>
+
+                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-black mb-4 leading-tight text-slate-700 dark:text-white">
                         What Our{' '}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                        <span className="bg-gradient-to-r bg-clip-text text-transparent from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400">
                             Clients Say
                         </span>
                     </h2>
-                    <p className="!text-gray-300 max-w-2xl mx-auto">
+
+                    <p className="text-lg leading-relaxed text-slate-500 dark:text-white/60">
                         Real feedback from real people who trust us with their technology needs
                     </p>
                 </motion.div>
 
                 {count > 0 ? (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="relative"
-                    >
-                        {/* Edge fades */}
-                        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-900 to-transparent z-10 pointer-events-none" />
-                        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-900 to-transparent z-10 pointer-events-none" />
+                    <div className="max-w-7xl mx-auto">
 
-                        {/* Scroll track */}
-                        <div
-                            ref={scrollRef}
-                            className="flex gap-5 overflow-x-auto pb-4 px-8"
-                            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                        >
-                            {/* Render list twice for seamless loop */}
-                            {[...testimonials, ...testimonials].map((testimonial, index) => (
-                                <motion.div
-                                    key={`${testimonial.id}-${index}`}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                                    transition={{ duration: 0.4, delay: Math.min(index, testimonials.length - 1) * 0.07 }}
-                                    whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                                >
-                                    <Card testimonial={testimonial} />
-                                </motion.div>
+                        {/* Dot navigation */}
+                        <div className="flex justify-center gap-2 mb-12">
+                            {Array.from({ length: totalGroups }).map((_, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => setCurrentIndex(idx)}
+                                    className={`rounded-full border-2 transition-all duration-300 ${
+                                        idx === currentIndex
+                                            ? 'w-4 h-4 scale-110 shadow-lg bg-indigo-600 border-indigo-600 shadow-indigo-400/40 dark:bg-indigo-400 dark:border-indigo-400 dark:shadow-indigo-500/50'
+                                            : 'w-3 h-3 bg-slate-300 border-slate-300 hover:bg-indigo-200 dark:bg-white/25 dark:border-white/35 dark:hover:bg-white/45'
+                                    }`}
+                                />
                             ))}
                         </div>
-                    </motion.div>
+
+                        {/* 4-col grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+                            {getVisibleTestimonials().map((testimonial, idx) => (
+                                <Card
+                                    key={`${testimonial.id || idx}-${currentIndex}`}
+                                    testimonial={testimonial}
+                                    index={idx}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Prev / Next */}
+                        <div className="flex justify-center gap-3">
+                            {[{ Icon: ChevronLeft, fn: prevSlide }, { Icon: ChevronRight, fn: nextSlide }].map(({ Icon, fn }, i) => (
+                                <button
+                                    key={i}
+                                    onClick={fn}
+                                    className="
+                                        w-11 h-11 border rounded-xl flex items-center justify-center transition-all duration-300
+                                        bg-white hover:bg-indigo-50 border-slate-200 hover:border-indigo-300
+                                        text-slate-500 hover:text-indigo-600 shadow-md hover:shadow-indigo-200/60
+                                        dark:bg-white/10 dark:hover:bg-white/20 dark:border-white/20
+                                        dark:hover:border-indigo-400/50 dark:text-white dark:hover:text-indigo-400
+                                        dark:shadow-xl dark:hover:shadow-indigo-500/20
+                                    "
+                                >
+                                    <Icon className="w-5 h-5" />
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                 ) : (
-                    /* ── Empty state ───────────────────────── */
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
-                        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center py-20 container-landing"
+                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                        className="text-center py-28"
                     >
-                        <motion.div
-                            animate={{ scale: [1, 1.05, 1] }}
-                            transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
-                            className="w-32 h-32 bg-white/10 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto mb-8 border border-white/20 shadow-2xl"
-                        >
-                            <svg className="w-16 h-16 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                            </svg>
-                        </motion.div>
-                        <h3 className="font-bold !text-white mb-4">Client Testimonials Coming Soon</h3>
-                        <p className="!text-gray-300 max-w-2xl mx-auto">
-                            We're gathering feedback from our amazing clients. Check back soon!
-                        </p>
+                        <div className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-6 border bg-slate-50 border-slate-200 dark:bg-white/5 dark:border-white/15">
+                            <Quote className="w-10 h-10 text-slate-300 dark:text-white/30" />
+                        </div>
+                        <p className="text-xl font-semibold text-slate-400 dark:text-white/40">No testimonials yet</p>
                     </motion.div>
                 )}
             </div>

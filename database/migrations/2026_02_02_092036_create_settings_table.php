@@ -79,6 +79,8 @@ return new class extends Migration
 
             // ── Social Links (flexible JSON – easy to extend) ────────
             $table->json('social_links')->nullable();              // {"facebook":"https://...","youtube":"...", ...}
+            $table->unsignedBigInteger('total_visits')
+                ->default(0);
 
             $table->timestamps();
         });

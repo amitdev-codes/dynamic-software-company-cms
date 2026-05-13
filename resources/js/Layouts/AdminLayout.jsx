@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import PageHeader from '@/Components/PageHeader';
+import { Link, router } from '@inertiajs/react';
 
 export default function AdminLayout({ children, title = 'Dashboard' }) {
     const { auth } = usePage().props;
@@ -116,6 +117,10 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
         });
     }, [usePage().props]);
 
+        const logout = () => {
+            router.post(route('logout'));
+        };
+
     return (
         <div className="min-h-screen flex bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
             {/* Sidebar Section */}
@@ -125,6 +130,7 @@ export default function AdminLayout({ children, title = 'Dashboard' }) {
                 auth={auth}
                 openMenus={openMenus}
                 toggleMenu={toggleMenu}
+                logout={logout}
                 t={t}
             />
 

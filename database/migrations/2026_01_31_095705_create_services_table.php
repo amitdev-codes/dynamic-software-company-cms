@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('icon')->nullable();
+            $table->string('icon_color')->nullable();
             $table->string('image')->nullable();
             $table->string('category')->nullable()->default('main');
             $table->json('features')->nullable();
