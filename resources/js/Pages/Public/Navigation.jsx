@@ -227,7 +227,7 @@ export default function Navigation({
             </motion.nav>
 
             {/* ── Spacer — exactly matches nav height ── */}
-            <div className="h-16 md:h-18" />
+            {/*<div className="h-16 md:h-18" />*/}
         </>
     );
 }

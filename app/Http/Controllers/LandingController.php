@@ -23,21 +23,31 @@ class LandingController extends Controller
             ['id' => 'contact',   'label' => 'Contact Us'],
         ];
 
-
-
         return Inertia::render('Public/Landing', [
             'menuItems'    => $menus,
             'services'     => Service::orderBy('order', 'asc')->get(),
-            'defaultServices' =>Service::where('category', 'default')->orderBy('order')->get(),
-            'comprehensiveServices' =>Service::where('category', 'comprehensive')->orderBy('order')->get(),
+            'defaultServices' => Service::where('category', 'default')->orderBy('order')->get(),
+            'comprehensiveServices' => Service::where('category', 'comprehensive')->orderBy('order')->get(),
             'projects'     => Project::orderBy('order', 'asc')->get(),
             'products'     => Product::query()
-                ->select(['id', 'name', 'title', 'description','features','tech_stack','pricing', 'is_active', 'sort_order'])
+                ->select(['id', 'name', 'title', 'description', 'features', 'tech_stack', 'pricing', 'image', 'is_active', 'sort_order'])
                 ->orderBy('sort_order')
                 ->orderBy('id')
                 ->get()
                 ->map(function ($product) {
-                    $product->image = $product->getFirstMediaUrl('product_image');
+                    // === Changed this part ===
+                    if ($product->image) {
+                        // If image is stored in public/images/
+                        $product->image = asset($product->image);
+
+                        // Alternative options (choose one):
+                        // $product->image = asset("storage/images/{$product->image}");     // if using storage link
+                        // $product->image = "/images/{$product->image}";                   // direct public path
+                    } else {
+                        $product->image = null;
+                    }
+
+                    // Tech stack transformation (kept as before)
                     $techStack = is_array($product->tech_stack)
                         ? $product->tech_stack
                         : json_decode($product->tech_stack, true);
@@ -51,7 +61,7 @@ class LandingController extends Controller
 
                     return $product;
                 }),
-            'testimonials' => Testimonial::orderBy('order', 'asc')->get(),   // ← fixed + explicit asc
+            'testimonials' => Testimonial::orderBy('order', 'asc')->get(),
             'settings'     => Setting::first(),
         ]);
     }

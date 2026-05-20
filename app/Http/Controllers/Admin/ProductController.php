@@ -65,6 +65,7 @@ class ProductController extends Controller
 
     public function edit(Product $product): Response
     {
+//        dd( $product->getFirstMediaUrl('product_image'));
         return Inertia::render('Admin/Products/Edit', [
             'product' => [
                 ...$product->only([

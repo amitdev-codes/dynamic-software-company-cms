@@ -29,11 +29,18 @@ export default function ProjectsSection({ projects }) {
     return (
         <section
             id="projects"
-            className="relative py-24 md:py-28 2xl:py-32 overflow-hidden transition-all duration-700
-             bg-gradient-to-b
-             from-neutral-50 via-white to-neutral-100
-             dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950"
+            className="section-gap relative overflow-hidden
+        bg-gradient-to-br
+        from-[#f0f7ff] via-[#e6f0ff] to-[#f0e6ff]
+        dark:from-[#0a0f1e]
+        dark:via-[#0d1429]
+        dark:to-[#1c2540]"
         >
+            {/* Ambient Blue Glows */}
+            <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
+                <div className="absolute -top-32 left-1/4 w-[500px] h-[500px] rounded-full bg-blue-400/10 dark:bg-blue-500/10 blur-[100px]" />
+                <div className="absolute bottom-10 right-1/4 w-[420px] h-[420px] rounded-full bg-indigo-400/10 dark:bg-indigo-500/10 blur-[90px]" />
+            </div>
             {/* Your existing JSX remains the same */}
             <div className="container-landing relative z-10">
                 {/* Header */}

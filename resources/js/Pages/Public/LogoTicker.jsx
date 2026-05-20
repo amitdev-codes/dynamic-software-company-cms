@@ -1,6 +1,7 @@
 import { SiGoogle,  SiSlack, SiShopify, SiStripe, SiDigitalocean, SiFigma } from 'react-icons/si';
 import { TfiMicrosoftAlt  as SiMicrosoft } from "react-icons/tfi";
 import { FaAmazon as SiAmazonwebservices} from "react-icons/fa";
+import {useRef} from "react";
 
 const logos = [
     { icon: SiGoogle,        name: 'Google'       },
@@ -15,7 +16,7 @@ const logos = [
 
 const LogoTicker = () => {
     const track = [...logos, ...logos]; // duplicate for seamless loop
-
+    const ref = useRef(null);
     return (
         <section
             className="relative py-14 overflow-hidden
@@ -50,7 +51,7 @@ const LogoTicker = () => {
                 <div className="absolute right-1/4 top-0 w-64 h-full bg-purple-400/5 dark:bg-purple-500/5 blur-3xl" />
             </div>
 
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="container-landing" ref={ref}>
 
                 {/* Label */}
                 <div className="flex items-center justify-center gap-4 mb-10">

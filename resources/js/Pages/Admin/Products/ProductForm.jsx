@@ -105,7 +105,7 @@ export default function ProductForm({ product = null }) {
             <div>
                 <label className="text-sm font-medium mb-1">Features (one per line)</label>
                 <textarea
-                    value={featuresText}
+                    value={data.features}
                     onChange={handleFeaturesChange}
                     rows={4}
                     className="w-full border rounded p-2 font-mono text-sm"

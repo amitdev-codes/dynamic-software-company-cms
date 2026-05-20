@@ -138,25 +138,23 @@ export default function ComprehensiveServicesPage({ comprehensiveServices = [] }
         <section
             id="comprehensive-services"
             ref={ref}
-            className="relative py-24 overflow-hidden
-                bg-gradient-to-br from-slate-50 via-indigo-50/40 to-blue-50/50
-                dark:from-[#060910] dark:via-[#0a0f1e] dark:to-[#0d0b22]"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
+            className="section-gap relative overflow-hidden
+        bg-gradient-to-br
+        from-[#f0f7ff] via-[#e6f0ff] to-[#f0e6ff]
+        dark:from-[#0a0f1e]
+        dark:via-[#0d1429]
+        dark:to-[#1c2540]"
         >
-            <style>{`@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');`}</style>
 
             {/* Bg blobs */}
             <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
-                <div className="absolute -top-28 right-1/4 w-96 h-96 rounded-full bg-indigo-300/15 dark:bg-indigo-700/10 blur-[100px]" />
-                <div className="absolute bottom-0 left-1/4 w-80 h-80 rounded-full bg-purple-300/15 dark:bg-purple-700/10 blur-[90px]" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-blue-300/10 dark:bg-blue-600/5 blur-[80px]" />
+                <div className="absolute -top-24 left-1/3 w-80 h-80 rounded-full bg-indigo-300/15 dark:bg-indigo-600/8 blur-[90px]" />
+                <div className="absolute bottom-0 right-1/4 w-96 h-80 rounded-full bg-blue-300/15 dark:bg-blue-700/8 blur-[100px]" />
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
+            <div className="container-landing" ref={ref}>
                 {/* ── Header ── */}
-                <div className="text-center mb-16">
-
+                <div className="text-center mb-10 sm:mb-16">
                     <motion.div
                         initial={{ opacity: 0, y: 12 }}
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
