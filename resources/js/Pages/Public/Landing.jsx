@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Navigation from './Navigation';
 import HeroSection from './HeroSection';
@@ -14,19 +14,18 @@ import QuestionSection from "@/Pages/Public/QuestionSection.jsx";
 import ComprehensiveSection from "@/Pages/Public/ComprehensiveSection.jsx";
 
 export default function Landing({
-                                    menuItems,
-                                    defaultServices,
-                                    comprehensiveServices,
-                                    services,
-                                    projects,
-                                    products,
-                                    testimonials,
-                                    settings,
-                                }) {
+    menuItems = [],
+    defaultServices,
+    comprehensiveServices,
+    services,
+    projects,
+    products,
+    testimonials,
+    settings,
+}) {
     const [activeSection, setActiveSection] = useState('home');
     const [isDarkMode, setIsDarkMode] = useState(false);
 
-    // Load theme from localStorage
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -39,49 +38,55 @@ export default function Landing({
         }
     }, []);
 
-    // Toggle theme
-    const toggleTheme = () => {
-        const newMode = !isDarkMode;
-        setIsDarkMode(newMode);
+    const toggleTheme = useCallback(() => {
+        setIsDarkMode((currentMode) => {
+            const nextMode = !currentMode;
 
-        if (newMode) {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-        }
-    };
+            document.documentElement.classList.toggle('dark', nextMode);
+            localStorage.setItem('theme', nextMode ? 'dark' : 'light');
 
-    // Scroll handler
+            return nextMode;
+        });
+    }, []);
+
     useEffect(() => {
         const handleScroll = () => {
-            const sections = menuItems?.map(item => item.id) || [];
-            const current = sections.find(section => {
+            const sectionIds = menuItems.map((item) => item.id);
+            const current = sectionIds.find((section) => {
                 const element = document.getElementById(section);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    return rect.top <= 150 && rect.bottom >= 150;
+
+                if (!element) {
+                    return false;
                 }
-                return false;
+
+                const rect = element.getBoundingClientRect();
+                return rect.top <= 150 && rect.bottom >= 150;
             });
-            if (current) setActiveSection(current);
+
+            if (current) {
+                setActiveSection(current);
+            }
         };
 
+        handleScroll();
         window.addEventListener('scroll', handleScroll, { passive: true });
+
         return () => window.removeEventListener('scroll', handleScroll);
     }, [menuItems]);
 
-    const scrollToSection = (id) => {
+    const scrollToSection = useCallback((id) => {
         const targetId = id === 'contact' ? 'footer' : id;
         const element = document.getElementById(targetId);
-        if (element) {
-            window.scrollTo({
-                top: element.offsetTop - 64,
-                behavior: 'smooth',
-            });
+
+        if (!element) {
+            return;
         }
-    };
+
+        window.scrollTo({
+            top: element.offsetTop - 64,
+            behavior: 'smooth',
+        });
+    }, []);
 
     return (
         <>
@@ -101,7 +106,9 @@ export default function Landing({
                     scrollToSection={scrollToSection}
                     settings={settings}
                 />
+
                 <LogoTicker />
+
                 <AboutSection />
 
                 <QuestionSection />
@@ -110,7 +117,8 @@ export default function Landing({
                     services={defaultServices}
                     comprehensiveServices={comprehensiveServices}
                 />
-                <ComprehensiveSection  comprehensiveServices={comprehensiveServices}/>
+
+                <ComprehensiveSection comprehensiveServices={comprehensiveServices} />
 
                 <ProductsSection products={products} />
 

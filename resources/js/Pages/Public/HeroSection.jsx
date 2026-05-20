@@ -1,30 +1,92 @@
 import { Link } from '@inertiajs/react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import {
+    ArrowRight,
+    CheckCircle2,
+    ChevronDown,
+    Code2,
+    Lightbulb,
+    ShieldCheck,
+} from 'lucide-react';
+import { useMemo, useRef } from 'react';
+
+const ENTRANCE_EASE = [0.16, 1, 0.3, 1];
+
+const TECH_STACK = [
+    { name: 'Java', bg: 'bg-[#ED8B00]', img: '/image/java.png' },
+    { name: '.NET', bg: 'bg-[#512BD4]', img: '/image/dotnet.png' },
+    { name: 'Laravel', bg: 'bg-[#FF2D20]', img: '/image/php.png' },
+    { name: 'MySQL', bg: 'bg-[#00758F]', img: '/image/mysql.png' },
+    { name: 'Oracle', bg: 'bg-[#C74634]', img: '/image/oracle.png' },
+    { name: 'PostgreSQL', bg: 'bg-[#336791]', img: '/image/postgres.png' },
+];
+
+const HERO_BADGES = [
+    {
+        title: 'Smart Solutions',
+        subtitle: 'Simplifying IT with practical execution.',
+        icon: Lightbulb,
+        gradient: 'from-blue-500 to-violet-500',
+        className: 'left-0 top-3 -translate-x-[42%]',
+        animation: { y: [0, -8, 0] },
+        delay: 0,
+    },
+    {
+        title: '100% Assured',
+        subtitle: 'Quality',
+        icon: ShieldCheck,
+        gradient: 'from-violet-500 to-pink-500',
+        className: 'right-0 top-8 translate-x-[34%]',
+        animation: { y: [0, -7, 0] },
+        delay: 0.35,
+    },
+    {
+        title: 'Expert Team',
+        subtitle: 'Development',
+        icon: Code2,
+        gradient: 'from-cyan-500 to-blue-500',
+        className: 'bottom-8 left-0 -translate-x-[34%]',
+        animation: { y: [0, 8, 0] },
+        delay: 0.55,
+    },
+];
 
 export default function HeroSection({ scrollToSection, settings }) {
     const sectionRef = useRef(null);
-    const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start start', 'end start'],
+    });
     const yParallax = useTransform(scrollYProgress, [0, 1], [0, 80]);
 
-    const techStack = [
-        { name: 'Java',       bg: 'bg-[#ED8B00]', img: '/image/java.png'     },
-        { name: '.NET',       bg: 'bg-[#512BD4]', img: '/image/dotnet.png'   },
-        { name: 'Laravel',    bg: 'bg-[#FF2D20]', img: '/image/php.png'      },
-        { name: 'MySQL',      bg: 'bg-[#00758F]', img: '/image/mysql.png'    },
-        { name: 'Oracle',     bg: 'bg-[#C74634]', img: '/image/oracle.png'   },
-        { name: 'PostgreSQL', bg: 'bg-[#336791]', img: '/image/postgres.png' },
-    ];
-
-    const stats = [
-        { value: settings.years_of_experience, label: 'Years Experience', gradient: 'from-blue-500 to-cyan-400',    icon: <CalendarIcon /> },
-        { value: settings.projects_delivered,   label: 'Projects Done',    gradient: 'from-violet-500 to-pink-500', icon: <RocketIcon />   },
-        { value: '50+',                         label: 'Happy Clients',    gradient: 'from-emerald-500 to-teal-400',icon: <StarIcon />      },
-    ];
+    const stats = useMemo(
+        () => [
+            {
+                value: settings?.years_of_experience || '5+',
+                label: 'Years Experience',
+                gradient: 'from-blue-500 to-cyan-400',
+                icon: <CalendarIcon />,
+            },
+            {
+                value: settings?.projects_delivered || '100+',
+                label: 'Projects Done',
+                gradient: 'from-violet-500 to-pink-500',
+                icon: <RocketIcon />,
+            },
+            {
+                value: '50+',
+                label: 'Happy Clients',
+                gradient: 'from-emerald-500 to-teal-400',
+                icon: <StarIcon />,
+            },
+        ],
+        [settings?.projects_delivered, settings?.years_of_experience],
+    );
 
     return (
         <section
-            id="hero"
+            id="home"
+            ref={sectionRef}
             className="section-gap relative overflow-hidden
                 bg-gradient-to-br from-slate-50 via-indigo-50/30 to-blue-50/40
                 dark:from-[#060910] dark:via-[#0a0f1e] dark:to-[#0d0b22]"
@@ -84,8 +146,8 @@ export default function HeroSection({ scrollToSection, settings }) {
                     backdrop-filter: blur(16px);
                     -webkit-backdrop-filter: blur(16px);
                     border: 1px solid var(--card-border);
-                    border-radius: 16px;
-                    box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+                    border-radius: 12px;
+                    box-shadow: 0 12px 36px rgba(15,23,42,0.1), 0 2px 8px rgba(15,23,42,0.04);
                 }
                 .dark .float-card {
                     box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
@@ -179,10 +241,25 @@ export default function HeroSection({ scrollToSection, settings }) {
                 /* Image glow ring */
                 .image-glow {
                     position: absolute;
-                    inset: -10%;
+                    inset: -14%;
                     border-radius: 50%;
-                    background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
+                    background:
+                        radial-gradient(circle, rgba(59,130,246,0.2) 0%, rgba(139,92,246,0.12) 38%, transparent 72%);
                     animation: pulse-glow 4s ease-in-out infinite;
+                }
+                .hero-device-shell {
+                    background:
+                        linear-gradient(145deg, rgba(255,255,255,0.88), rgba(255,255,255,0.45)),
+                        radial-gradient(circle at 50% 0%, rgba(99,102,241,0.18), transparent 55%);
+                    border: 1px solid rgba(255,255,255,0.8);
+                    box-shadow: 0 24px 80px rgba(79,70,229,0.18);
+                }
+                .dark .hero-device-shell {
+                    background:
+                        linear-gradient(145deg, rgba(15,23,42,0.8), rgba(15,23,42,0.35)),
+                        radial-gradient(circle at 50% 0%, rgba(99,102,241,0.22), transparent 55%);
+                    border-color: rgba(255,255,255,0.1);
+                    box-shadow: 0 24px 80px rgba(0,0,0,0.45);
                 }
                 @keyframes pulse-glow {
                     0%,100% { transform: scale(0.9); opacity: 0.5; }
@@ -225,15 +302,12 @@ export default function HeroSection({ scrollToSection, settings }) {
             <div className="hero-grid" aria-hidden />
             <div className="hero-grain absolute inset-0 pointer-events-none" aria-hidden />
 
-            {/* Main Content */}
-
             <div className="relative z-10 w-full container-landing pt-0 pb-12 lg:py-0 lg:min-h-[calc(100vh-15rem)] lg:flex lg:items-center">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center w-full">
-                    {/* ── LEFT: Text ── */}
                     <motion.div
                         initial={{ opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                        transition={{ duration: 0.9, ease: ENTRANCE_EASE }}
                         className="space-y-7"
                     >
                         {/* Tagline */}
@@ -254,74 +328,38 @@ export default function HeroSection({ scrollToSection, settings }) {
                             </div>
                         </motion.div>
 
-                        {/* Heading block */}
-                        {/* Enhanced Heading Block */}
                         <div className="space-y-0">
-
-                            {/* Pre-heading */}
                             <motion.p
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.15, duration: 0.6 }}
-                                className="
-text-base sm:text-lg md:text-xl
-font-medium tracking-[0.25em] uppercase
-mb-2 sm:mb-3
-
-text-transparent bg-clip-text
-bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-500
-
-dark:from-sky-300 dark:via-indigo-300 dark:to-violet-300
-
-drop-shadow-[0_2px_10px_rgba(99,102,241,0.35)]
-"
+                                className="mb-2 bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-500 bg-clip-text text-base font-medium uppercase tracking-[0.25em] text-transparent drop-shadow-[0_2px_10px_rgba(99,102,241,0.35)] dark:from-sky-300 dark:via-indigo-300 dark:to-violet-300 sm:mb-3 sm:text-lg md:text-xl"
                             >
                                 The best way to escape
                             </motion.p>
 
-                            {/* Main Headline */}
                             <motion.h1
                                 initial={{ opacity: 0, y: 24, scale: 0.98 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 transition={{
                                     delay: 0.2,
                                     duration: 0.9,
-                                    ease: [0.16, 1, 0.3, 1]
+                                    ease: ENTRANCE_EASE,
                                 }}
-                                className="
-                                text-6xl sm:text-7xl md:text-[5.5rem] lg:text-[6rem] xl:text-[6.5rem]
-                                font-black leading-[0.9] tracking-tighter
-
-                                text-transparent bg-clip-text
-
-                                bg-[linear-gradient(90deg,#ff00cc_0%,#3333ff_100%)]
-
-                                drop-shadow-[0_0_55px_rgba(255,0,204,0.25)]
-                                "
+                                className="bg-[linear-gradient(100deg,#0ea5e9_0%,#4f46e5_38%,#8b5cf6_68%,#ec4899_100%)] bg-clip-text text-6xl font-black leading-[0.9] tracking-tighter text-transparent drop-shadow-[0_18px_45px_rgba(79,70,229,0.22)] sm:text-7xl md:text-[5.5rem] lg:text-[6rem] xl:text-[6.5rem]"
                             >
                                 Problems
                             </motion.h1>
 
-                            {/* Sub heading */}
                             <motion.p
                                 initial={{ opacity: 0, y: 14 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.35, duration: 0.75 }}
-                                className="
-                                text-2xl sm:text-3xl md:text-4xl lg:text-5xl
-                                font-semibold tracking-tight leading-snug
-                                mb-3
-
-                                bg-gradient-to-r from-slate-700 via-slate-500 to-slate-700
-                                dark:from-slate-200 dark:via-slate-300 dark:to-slate-200
-
-                                bg-clip-text text-transparent
-                                "
+                                className="mb-3 bg-gradient-to-r from-slate-700 via-slate-500 to-slate-700 bg-clip-text text-2xl font-semibold leading-snug tracking-tight text-transparent dark:from-slate-200 dark:via-slate-300 dark:to-slate-200 sm:text-3xl md:text-4xl lg:text-5xl"
                             >
                                 is to solve them.
                             </motion.p>
 
-                            {/* Quote */}
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
@@ -330,15 +368,10 @@ drop-shadow-[0_2px_10px_rgba(99,102,241,0.35)]
                             >
                                 <div className="h-px w-10 bg-gradient-to-r from-transparent via-slate-400 to-transparent" />
 
-                                <div className="
-                                            text-sm sm:text-base italic
-                                            text-slate-500 dark:text-slate-400
-                                            tracking-wide
-                                   ">
+                                <div className="text-sm italic tracking-wide text-slate-500 dark:text-slate-400 sm:text-base">
                                     ~ Brendan Francis
                                 </div>
                             </motion.div>
-
                         </div>
 
                         {/* Description */}
@@ -348,7 +381,7 @@ drop-shadow-[0_2px_10px_rgba(99,102,241,0.35)]
                             transition={{ delay: 0.45, duration: 0.8 }}
                             className="text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-lg"
                         >
-                            {settings.description}
+                            {settings?.description}
                         </motion.p>
 
                         {/* CTAs */}
@@ -363,12 +396,11 @@ drop-shadow-[0_2px_10px_rgba(99,102,241,0.35)]
                                 className="btn-primary inline-flex items-center justify-center gap-2 px-7 py-3.5 text-white text-sm font-bold rounded-2xl group"
                             >
                                 <span>Get Started</span>
-                                <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
+                                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                             </Link>
 
                             <button
+                                type="button"
                                 onClick={() => scrollToSection('services')}
                                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5
                                            border border-slate-300 dark:border-slate-700
@@ -378,9 +410,7 @@ drop-shadow-[0_2px_10px_rgba(99,102,241,0.35)]
                                            transition-all duration-300 group"
                             >
                                 Explore Services
-                                <svg className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
+                                <ChevronDown className="h-4 w-4 opacity-50 transition-opacity group-hover:opacity-100" />
                             </button>
                         </motion.div>
 
@@ -412,141 +442,35 @@ drop-shadow-[0_2px_10px_rgba(99,102,241,0.35)]
                             ))}
                         </motion.div>
                     </motion.div>
-                    {/* ── RIGHT: Visual ── */}
+
                     <motion.div
                         initial={{ opacity: 0, scale: 0.96 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.3, duration: 1.1, ease: [0.16,1,0.3,1] }}
+                        transition={{ delay: 0.3, duration: 1.1, ease: ENTRANCE_EASE }}
                         className="relative hidden lg:flex items-center justify-center"
                     >
-                        {/* Parallax wrapper */}
                         <motion.div
                             style={{ y: yParallax }}
-                            className="relative flex items-center justify-center w-full"
+                            className="relative flex min-h-[520px] w-full items-center justify-center"
                         >
-                            {/* Glow ring behind image */}
                             <div className="image-glow" aria-hidden />
+                            <div className="absolute h-[430px] w-[430px] rounded-full border border-violet-200/50 dark:border-violet-800/30 xl:h-[500px] xl:w-[500px]" aria-hidden />
+                            <div className="absolute h-[350px] w-[350px] rounded-full border border-blue-200/50 dark:border-blue-800/25 xl:h-[410px] xl:w-[410px]" aria-hidden />
 
-                            {/* Decorative ring */}
-                            <div className="absolute w-[340px] h-[340px] xl:w-[420px] xl:h-[420px] rounded-full border border-violet-200/50 dark:border-violet-800/30" aria-hidden />
-                            <div className="absolute w-[280px] h-[280px] xl:w-[360px] xl:h-[360px] rounded-full border border-blue-200/40 dark:border-blue-800/20" aria-hidden />
+                            <div className="hero-device-shell relative z-10 flex h-[380px] w-[380px] items-center justify-center rounded-full xl:h-[440px] xl:w-[440px]">
+                                <div className="absolute inset-8 rounded-full border border-white/60 dark:border-white/10" aria-hidden />
+                                <img
+                                    src="/image/slider1.png"
+                                    alt="Cloud Com Solutions"
+                                    className="relative z-10 h-auto w-72 object-contain drop-shadow-2xl xl:w-[22rem]"
+                                />
+                            </div>
 
-                            {/* Main image */}
-                            <img
-                                src="/image/slider1.png"
-                                alt="Cloud Com Solutions"
-                                className="relative z-10 w-64 xl:w-80 h-auto object-contain drop-shadow-2xl"
-                            />
+                            {HERO_BADGES.map((badge) => (
+                                <FloatingHeroBadge key={badge.title} badge={badge} />
+                            ))}
 
-                            {/* ── FLOATING CARDS (xl+ only) ── */}
-
-                            {/* TOP LEFT */}
-                            <motion.div
-                                animate={{ y: [0, -8, 0] }}
-                                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-                                className="float-card float-card-tl absolute z-20 p-3.5"
-                                style={{
-                                    top: '-2rem',
-                                    left: '0',
-                                    transform: 'translateX(-85%)',
-                                    width: '220px'
-                                }}
-                            >
-                                <div className="shimmer-line" />
-                                <div className="flex items-start gap-3">
-                                    <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white flex-shrink-0 shadow-md">
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p className="text-[11px] font-bold leading-snug" style={{ color: 'var(--text-primary)' }}>
-                                            Simplifying IT with innovative solutions.
-                                        </p>
-                                        <p className="text-[10px] mt-0.5 leading-snug" style={{ color: 'var(--text-muted)' }}>
-                                            Your trusted digital partner.
-                                        </p>
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            {/* TOP RIGHT */}
-                            <motion.div
-                                animate={{ y: [0, -8, 0] }}
-                                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
-                                className="float-card float-card-tr absolute z-20 p-3.5"
-                                style={{
-                                    top: '-2rem',
-                                    right: '0',
-                                    transform: 'translateX(85%)',
-                                }}
-                            >
-                                <div className="shimmer-line" />
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-pink-500 flex items-center justify-center flex-shrink-0 shadow-md">
-                                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] font-medium" style={{ color: 'var(--text-muted)' }}>Quality</p>
-                                        <p className="text-sm font-black" style={{ color: 'var(--text-primary)' }}>100% Assured</p>
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            {/* BOTTOM LEFT */}
-                            <motion.div
-                                animate={{ y: [0, 8, 0] }}
-                                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-                                className="float-card float-card-bl absolute z-20 p-3.5"
-                                style={{
-                                    bottom: '-2rem',
-                                    left: '0',
-                                    transform: 'translateX(-85%)',
-                                }}
-                            >
-                                <div className="shimmer-line" />
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center flex-shrink-0 shadow-md">
-                                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] font-medium" style={{ color: 'var(--text-muted)' }}>Development</p>
-                                        <p className="text-sm font-black" style={{ color: 'var(--text-primary)' }}>Expert Team</p>
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            {/* BOTTOM RIGHT - Tech Stack */}
-                            <motion.div
-                                animate={{ y: [0, 8, 0] }}
-                                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
-                                className="float-card float-card-br absolute z-20 p-3.5"
-                                style={{
-                                    bottom: '-2rem',
-                                    right: '0',
-                                    transform: 'translateX(85%)',
-                                }}
-                            >
-                                <div className="shimmer-line" />
-                                <p className="text-[9px] font-bold tracking-[0.15em] uppercase mb-2 text-center" style={{ color: 'var(--text-muted)' }}>
-                                    Tech Stack
-                                </p>
-                                <div className="grid grid-cols-3 gap-1.5">
-                                    {techStack.map((tech, i) => (
-                                        <div
-                                            key={i}
-                                            className={`tech-icon w-10 h-10 rounded-xl ${tech.bg} flex items-center justify-center cursor-pointer`}
-                                            title={tech.name}
-                                        >
-                                            <img src={tech.img} alt={tech.name} className="w-6 h-6 object-contain" />
-                                        </div>
-                                    ))}
-                                </div>
-                            </motion.div>
+                            <TechStackBadge />
                         </motion.div>
                     </motion.div>
                 </div>
@@ -555,6 +479,76 @@ drop-shadow-[0_2px_10px_rgba(99,102,241,0.35)]
             {/* Bottom fade */}
             <div className="absolute bottom-0 left-0 right-0  bg-gradient-to-t from-white/40 dark:from-black/20 to-transparent pointer-events-none" />
         </section>
+    );
+}
+
+function FloatingHeroBadge({ badge }) {
+    const Icon = badge.icon;
+
+    return (
+        <motion.div
+            animate={badge.animation}
+            transition={{
+                duration: 3.7,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: badge.delay,
+            }}
+            className={`float-card absolute z-20 hidden w-[210px] p-3.5 xl:block ${badge.className}`}
+        >
+            <div className="shimmer-line" />
+            <div className="flex items-center gap-3">
+                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${badge.gradient} text-white shadow-md`}>
+                    <Icon className="h-5 w-5" aria-hidden />
+                </div>
+                <div className="min-w-0">
+                    <p className="text-[10px] font-semibold leading-tight" style={{ color: 'var(--text-muted)' }}>
+                        {badge.subtitle}
+                    </p>
+                    <p className="mt-0.5 text-sm font-black leading-tight" style={{ color: 'var(--text-primary)' }}>
+                        {badge.title}
+                    </p>
+                </div>
+            </div>
+        </motion.div>
+    );
+}
+
+function TechStackBadge() {
+    return (
+        <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{
+                duration: 3.7,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: 0.75,
+            }}
+            className="float-card absolute bottom-0 right-0 z-20 hidden translate-x-[32%] p-3.5 xl:block"
+        >
+            <div className="shimmer-line" />
+            <p
+                className="mb-2 text-center text-[9px] font-bold uppercase tracking-[0.15em]"
+                style={{ color: 'var(--text-muted)' }}
+            >
+                Tech Stack
+            </p>
+            <div className="grid grid-cols-3 gap-1.5">
+                {TECH_STACK.map((tech) => (
+                    <div
+                        key={tech.name}
+                        className={`tech-icon flex h-10 w-10 items-center justify-center rounded-lg ${tech.bg}`}
+                        title={tech.name}
+                    >
+                        <img
+                            src={tech.img}
+                            alt={tech.name}
+                            className="h-6 w-6 object-contain"
+                        />
+                    </div>
+                ))}
+            </div>
+        </motion.div>
     );
 }
 
