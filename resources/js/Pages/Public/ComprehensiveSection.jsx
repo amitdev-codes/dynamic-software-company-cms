@@ -125,7 +125,7 @@ export default function ComprehensiveSection({ comprehensiveServices = [] }) {
                         animate={isInView ? 'visible' : 'hidden'}
                         variants={fadeUp}
                         transition={{ duration: 0.48, delay: 0.08 }}
-                        className="section-heading !mb-0 text-center"
+                        className="section-heading !mb-0 text-center text-gray-900 dark:text-white"
                     >
                         Deeper capability for work that needs{' '}
                         <span className="bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent dark:from-indigo-300 dark:to-blue-300">

@@ -126,12 +126,6 @@ export default function ProjectsSection({ projects }) {
                                         ))}
                                     </div>
                                 )}
-                                <Link
-                                    href={`/projects/${project.slug || project.id}`}
-                                    className="mt-auto inline-flex items-center text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
-                                >
-                                    Know More →
-                                </Link>
                             </div>
                         );
                     })}

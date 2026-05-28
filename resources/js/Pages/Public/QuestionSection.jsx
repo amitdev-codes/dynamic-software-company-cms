@@ -4,30 +4,30 @@ import { useRef } from 'react';
 
 /* ── Bubble size classes ── */
 const sizeStyles = {
-    sm: 'w-12 h-12 text-[9px]',
-    md: 'w-16 h-16 text-[10px]',
-    lg: 'w-20 h-20 text-[11px]',
-    xl: 'w-24 h-24 text-[12px]',
+    sm: 'h-12 w-12 text-[9px]',
+    md: 'h-14 w-14 text-[9px]',
+    lg: 'h-16 w-16 text-[10px]',
+    xl: 'h-20 w-20 text-[11px]',
 };
 
 /* ── Single bubble ── */
 const Bubble = ({ label, size, style }) => (
     <div
-        className={`absolute rounded-full font-semibold flex items-center justify-center text-center px-1
+        className={`absolute rounded-full font-semibold flex items-center justify-center text-center px-2
             bg-white/10 border border-white/25 text-white/85
             backdrop-blur-sm shadow-[0_2px_12px_rgba(0,0,0,0.15)]
             hover:bg-blue-500/20 hover:border-blue-400/50 hover:text-white
-            transition-all duration-300 cursor-default
+            transition-all duration-300 cursor-default leading-[1.05]
             ${sizeStyles[size]}`}
         style={style}
     >
-        {label}
+        <span className="block max-w-full break-words">{label}</span>
     </div>
 );
 
 /* ── Vertical divider ── */
 const Divider = () => (
-    <div className="relative mx-1 flex-shrink-0 flex flex-col items-center" style={{ height: '160px' }}>
+    <div className="relative mx-2 flex-shrink-0 flex flex-col items-center" style={{ height: '176px' }}>
         <div className="w-px flex-1 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
         <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_12px_#3b82f6] flex-shrink-0" />
         <div className="w-px flex-1 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
@@ -36,14 +36,14 @@ const Divider = () => (
 
 /* ── Phase column ── */
 const Phase = ({ title, children, glow = false }) => (
-    <div className="flex-1 flex flex-col items-center gap-3 min-w-0">
+    <div className="flex min-w-[104px] flex-1 flex-col items-center gap-3">
         <div
             className={`relative w-full ${glow ? 'bg-[radial-gradient(circle,rgba(59,130,246,0.12),transparent_70%)]' : ''}`}
-            style={{ height: '160px' }}
+            style={{ height: '176px' }}
         >
             {children}
         </div>
-        <span className="text-[9px] font-bold uppercase tracking-[2px] text-white/40 text-center">
+        <span className="w-full text-center text-[10px] font-bold uppercase tracking-[1px] text-white/45 leading-tight">
             {title}
         </span>
     </div>
@@ -83,7 +83,7 @@ const QuestionSection = () => {
                     {/* Radial glow */}
                     <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-blue-600/5 blur-[100px] pointer-events-none" />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center p-8 sm:p-10 md:p-12 lg:p-14">
+                    <div className="grid grid-cols-1 gap-10 items-center p-8 sm:p-10 md:grid-cols-[minmax(0,0.95fr)_minmax(340px,1.05fr)] md:gap-8 md:p-12 lg:gap-10 lg:p-14">
 
                         {/* ── Left: text ── */}
                         <motion.div
@@ -129,32 +129,32 @@ const QuestionSection = () => {
                             initial={{ opacity: 0, x: 30 }}
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
                             transition={{ duration: 0.6, delay: 0.25 }}
-                            className="flex justify-center items-center"
+                            className="flex justify-center items-center overflow-x-auto pb-2 md:overflow-visible md:pb-0"
                         >
-                            <div className="flex items-center w-full max-w-sm">
+                            <div className="flex w-max min-w-[420px] items-center justify-center md:w-full md:min-w-0 md:max-w-[460px]">
 
                                 {/* Communication */}
                                 <Phase title="Communication">
-                                    <Bubble label="Problems"    size="sm" style={{ top: '20%',    left: '0%'   }} />
-                                    <Bubble label="Effect"      size="sm" style={{ bottom: '20%', left: '0%'   }} />
-                                    <Bubble label="Reasons"     size="md" style={{ top: '10%',    left: '30%'  }} />
-                                    <Bubble label="Expectation" size="md" style={{ bottom: '10%', left: '30%'  }} />
+                                    <Bubble label="Problems"    size="sm" style={{ top: '8px',     left: '2px'  }} />
+                                    <Bubble label="Reasons"     size="md" style={{ top: '30px',    right: '0'   }} />
+                                    <Bubble label="Effect"      size="sm" style={{ bottom: '34px', left: '6px'  }} />
+                                    <Bubble label="Expectation" size="lg" style={{ bottom: '0',    right: '0'   }} />
                                 </Phase>
 
                                 <Divider />
 
                                 {/* Knowledge */}
                                 <Phase title="Knowledge" glow>
-                                    <Bubble label="Design"  size="md" style={{ top: '15%',  left: '10%'                              }} />
-                                    <Bubble label="Output"  size="md" style={{ top: '15%',  right: '10%'                             }} />
-                                    <Bubble label="Input"   size="lg" style={{ top: '45%',  left: '50%', transform: 'translateX(-50%)' }} />
+                                    <Bubble label="Design"  size="md" style={{ top: '18px',  left: '0'                               }} />
+                                    <Bubble label="Output"  size="md" style={{ top: '18px',  right: '0'                              }} />
+                                    <Bubble label="Input"   size="lg" style={{ bottom: '16px', left: '50%', transform: 'translateX(-50%)' }} />
                                 </Phase>
 
                                 <Divider />
 
                                 {/* Development */}
                                 <Phase title="Development">
-                                    <Bubble label="Solutions" size="xl" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
+                                    <Bubble label="Solutions" size="xl" style={{ top: '48%', left: '50%', transform: 'translate(-50%, -50%)' }} />
                                 </Phase>
 
                             </div>

@@ -40,7 +40,7 @@
         --font-h4: 1.125rem;    /* 18px - Widget/sidebar titles */
         --font-h5: 1rem;        /* 16px - Regular heading */
         --font-h6: 0.875rem;    /* 14px - Small heading */
-        --font-p:  0.9375rem;   /* 15px - Paragraph text */
+        --font-p:  0.7375rem;   /* 15px - Paragraph text */
     }
 
     .dark {

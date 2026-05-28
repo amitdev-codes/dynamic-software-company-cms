@@ -51,7 +51,7 @@ const ProductsSection = ({ products = [] }) => {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-10 sm:mb-14"
                 >
-                    <div className="inline-flex items-center gap-3 mb-4">
+                    <div className="inline-flex items-center gap-2 mb-4">
                         <div className="h-px w-10 bg-gradient-to-r from-transparent to-purple-400/60" />
                         <span className="text-[10.5px] font-bold tracking-[3px] uppercase text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-500/10 border border-purple-200 dark:border-purple-500/25 px-4 py-1.5 rounded-full">
                             Our Work
@@ -59,7 +59,7 @@ const ProductsSection = ({ products = [] }) => {
                         <div className="h-px w-10 bg-gradient-to-l from-transparent to-purple-400/60" />
                     </div>
 
-                    <h2 className="section-heading text-center !mb-0 max-w-3xl mx-auto">
+                    <h2 className="section-heading text-center !mb-0 max-w-3xl mx-auto text-gray-900 dark:text-white">
                         Consistently Driving Development &amp; Execution of{' '}
                         <span className="bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent">
                             Our Products

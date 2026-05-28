@@ -55,7 +55,7 @@ export default function AboutSection() {
                             KNOW ABOUT US
                         </span>
 
-                        <h2 className="text-4xl lg:text-5xl font-bold leading-tight">
+                        <h2 className="text-4xl lg:text-5xl font-bold leading-tight text-gray-900 dark:text-white">
                             We Strive to be a Better{' '}
                             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                                 Technology Partner
@@ -63,11 +63,11 @@ export default function AboutSection() {
                         </h2>
 
                         <div className="space-y-4 text-slate-600 dark:text-slate-400">
-                            <p>
+                            <p className="text-gray-700 dark:text-white">
                                 We simplify IT services for organizations with cost-effective, high-impact
                                 software and hardware solutions.
                             </p>
-                            <p>
+                            <p className="text-gray-700 dark:text-white">
                                 Every solution we deliver is backed by strong{' '}
                                 <strong className="text-slate-800 dark:text-slate-200">Research &amp; Development</strong>.
                             </p>
@@ -99,17 +99,6 @@ export default function AboutSection() {
                                     </motion.div>
                                 );
                             })}
-                        </div>
-
-                        {/* CTA */}
-                        <div className="pt-4">
-                            <Link
-                                href="/services"
-                                className="btn-primary inline-flex items-center gap-2 group"
-                            >
-                                Learn More
-                                <span className="group-hover:translate-x-0.5 transition">→</span>
-                            </Link>
                         </div>
                     </motion.div>
                 </div>

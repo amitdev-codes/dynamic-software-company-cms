@@ -30,7 +30,7 @@ export default function Footer({ settings, menuItems, services, scrollToSection 
             <div className="relative z-10">
 
                 {/* ── Main content ───────────────────────────────────── */}
-                <div className="container-landing py-12 md:py-16 2xl:py-20">
+                <div className="container-landing py-10 md:py-14 2xl:py-18">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 2xl:gap-16 mb-10">
 
                         {/* ── Col 1 · Company info ───────────────────── */}
@@ -44,9 +44,13 @@ export default function Footer({ settings, menuItems, services, scrollToSection 
                             {/* Logo row */}
                             <div className="flex items-center gap-3 mb-5">
                                 <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shrink-0">
-                                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
+                                         <span className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-white shadow-lg dark:bg-gray-900 md:h-11 md:w-11">
+                                <img
+                                    src={settings?.logo_dark}
+                                    alt={settings?.company_name || 'CloudCom'}
+                                    className="h-full w-full object-contain p-1"
+                                />
+                            </span>
                                 </div>
                                 <div>
                                     <h3 className="!text-white !text-lg md:!text-xl font-bold leading-tight">

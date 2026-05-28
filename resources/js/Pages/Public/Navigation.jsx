@@ -12,6 +12,7 @@ export default function Navigation({
     scrollToSection,
     isDarkMode,
     toggleTheme,
+    hasTopContactBar = false,
 }) {
     const [hoveredItem, setHoveredItem] = useState(null);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -67,7 +68,7 @@ export default function Navigation({
         <motion.nav
             initial={{ y: -100 }}
             animate={{ y: 0 }}
-            className={`fixed top-0 z-50 w-full transition-all duration-500 ${
+            className={`fixed ${hasTopContactBar ? 'top-[34px] sm:top-9' : 'top-0'} z-50 w-full transition-all duration-500 ${
                 isScrolled
                     ? 'border-b border-gray-100 bg-white/95 shadow-lg backdrop-blur-xl dark:border-gray-800 dark:bg-gray-950/95'
                     : 'bg-transparent backdrop-blur-sm'
@@ -136,6 +137,7 @@ export default function Navigation({
                         aria-expanded={isMobileMenuOpen}
                     >
                         <motion.span
+
                             animate={
                                 isMobileMenuOpen
                                     ? { rotate: 45, y: 6 }

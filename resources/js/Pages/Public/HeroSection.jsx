@@ -27,7 +27,7 @@ const HERO_BADGES = [
         subtitle: 'Simplifying IT with practical execution.',
         icon: Lightbulb,
         gradient: 'from-blue-500 to-violet-500',
-        className: 'left-0 top-3 -translate-x-[42%]',
+        className: 'left-8 top-10 -translate-x-[34%]',
         animation: { y: [0, -8, 0] },
         delay: 0,
     },
@@ -36,7 +36,7 @@ const HERO_BADGES = [
         subtitle: 'Quality',
         icon: ShieldCheck,
         gradient: 'from-violet-500 to-pink-500',
-        className: 'right-0 top-8 translate-x-[34%]',
+        className: 'right-8 top-14 translate-x-[26%]',
         animation: { y: [0, -7, 0] },
         delay: 0.35,
     },
@@ -45,7 +45,7 @@ const HERO_BADGES = [
         subtitle: 'Development',
         icon: Code2,
         gradient: 'from-cyan-500 to-blue-500',
-        className: 'bottom-8 left-0 -translate-x-[34%]',
+        className: 'bottom-16 left-8 -translate-x-[28%]',
         animation: { y: [0, 8, 0] },
         delay: 0.55,
     },
@@ -87,7 +87,7 @@ export default function HeroSection({ scrollToSection, settings }) {
         <section
             id="home"
             ref={sectionRef}
-            className="section-gap relative overflow-hidden
+            className="relative overflow-hidden py-3 sm:py-4 md:py-5 lg:py-6
                 bg-gradient-to-br from-slate-50 via-indigo-50/30 to-blue-50/40
                 dark:from-[#060910] dark:via-[#0a0f1e] dark:to-[#0d0b22]"
         >
@@ -117,7 +117,6 @@ export default function HeroSection({ scrollToSection, settings }) {
                     --badge-border: rgba(99,102,241,0.3);
                 }
 
-                /* Mesh background */
                 .hero-mesh {
                     position: absolute;
                     inset: 0;
@@ -128,19 +127,17 @@ export default function HeroSection({ scrollToSection, settings }) {
                     opacity: 0.7;
                 }
 
-                /* Grid dot pattern */
                 .hero-grid {
                     position: absolute;
                     inset: 0;
                     background-image: radial-gradient(circle, rgba(99,102,241,0.12) 1px, transparent 1px);
-                    background-size: 32px 32px;
+                    background-size: 30px 30px;
                     mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
                 }
                 .dark .hero-grid {
                     background-image: radial-gradient(circle, rgba(99,102,241,0.18) 1px, transparent 1px);
                 }
 
-                /* Floating card base */
                 .float-card {
                     background: var(--card-bg);
                     backdrop-filter: blur(16px);
@@ -153,7 +150,6 @@ export default function HeroSection({ scrollToSection, settings }) {
                     box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
                 }
 
-                /* Stat card */
                 .stat-card {
                     background: var(--card-bg);
                     backdrop-filter: blur(12px);
@@ -166,7 +162,6 @@ export default function HeroSection({ scrollToSection, settings }) {
                     box-shadow: 0 12px 40px rgba(99,102,241,0.15);
                 }
 
-                /* Gradient text */
                 .gradient-text {
                     background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
                     -webkit-background-clip: text;
@@ -179,7 +174,6 @@ export default function HeroSection({ scrollToSection, settings }) {
                     background-clip: text;
                 }
 
-                /* Shimmer line */
                 .shimmer-line {
                     position: absolute;
                     top: 0; left: 0; right: 0;
@@ -192,7 +186,6 @@ export default function HeroSection({ scrollToSection, settings }) {
                     50% { opacity: 1; transform: scaleX(1); }
                 }
 
-                /* Noise grain overlay */
                 .hero-grain::before {
                     content: '';
                     position: absolute;
@@ -203,7 +196,6 @@ export default function HeroSection({ scrollToSection, settings }) {
                     z-index: 1;
                 }
 
-                /* Tech icon hover */
                 .tech-icon {
                     transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
                 }
@@ -212,14 +204,12 @@ export default function HeroSection({ scrollToSection, settings }) {
                     box-shadow: 0 6px 20px rgba(0,0,0,0.25);
                 }
 
-                /* Scroll indicator */
                 @keyframes scrollBounce {
                     0%,100% { transform: translateY(0); }
                     50% { transform: translateY(10px); }
                 }
                 .scroll-dot { animation: scrollBounce 1.8s ease-in-out infinite; }
 
-                /* CTA button glow */
                 .btn-primary {
                     position: relative;
                     overflow: hidden;
@@ -238,7 +228,6 @@ export default function HeroSection({ scrollToSection, settings }) {
                 .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 25px rgba(99,102,241,0.4); }
                 .btn-primary span, .btn-primary svg { position: relative; z-index: 1; }
 
-                /* Image glow ring */
                 .image-glow {
                     position: absolute;
                     inset: -14%;
@@ -266,11 +255,10 @@ export default function HeroSection({ scrollToSection, settings }) {
                     50% { transform: scale(1.1); opacity: 1; }
                 }
 
-                /* Tagline badge */
                 .tagline-badge {
                     display: inline-flex;
                     align-items: center;
-                    gap: 6px;
+                    gap: 5px;
                     padding: 4px 14px 4px 6px;
                     background: var(--badge-bg);
                     border: 1px solid var(--badge-border);
@@ -278,7 +266,24 @@ export default function HeroSection({ scrollToSection, settings }) {
                     backdrop-filter: blur(8px);
                 }
 
-                /* Responsive float card adjustments */
+                .hero-quote-kicker {
+                    font-size: clamp(0.8rem, 1vw, 1rem);
+                    letter-spacing: 0.18em;
+                }
+                /* ── CHANGED: reduced from clamp(2.85rem,7vw,5.25rem) + font-black ── */
+                .hero-quote-title {
+                    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+                    line-height: 1.05;
+                    letter-spacing: -0.02em;
+                    font-weight: 800;
+                }
+                /* ── CHANGED: tightened subtitle to stay proportional ── */
+                .hero-quote-subtitle {
+                    font-size: clamp(1.05rem, 2.2vw, 1.85rem);
+                    line-height: 1.1;
+                    letter-spacing: -0.015em;
+                }
+
                 @media (max-width: 1280px) {
                     .float-card-tr,
                     .float-card-tl,
@@ -302,8 +307,9 @@ export default function HeroSection({ scrollToSection, settings }) {
             <div className="hero-grid" aria-hidden />
             <div className="hero-grain absolute inset-0 pointer-events-none" aria-hidden />
 
-            <div className="relative z-10 w-full container-landing pt-0 pb-12 lg:py-0 lg:min-h-[calc(100vh-15rem)] lg:flex lg:items-center">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center w-full">
+            <div className="relative z-10 w-full container-landing py-0 lg:min-h-[calc(100vh-16rem)] lg:flex lg:items-center">
+                {/* ── CHANGED: gap-12 lg:gap-20 → gap-8 lg:gap-10 ── */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-6 items-center w-full">
                     <motion.div
                         initial={{ opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -328,37 +334,38 @@ export default function HeroSection({ scrollToSection, settings }) {
                             </div>
                         </motion.div>
 
-                        <div className="space-y-0">
+                        <div className="hero-quote space-y-1 sm:space-y-1.5">
                             <motion.p
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.15, duration: 0.6 }}
-                                className="mb-2 bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-500 bg-clip-text text-base font-medium uppercase tracking-[0.25em] text-transparent drop-shadow-[0_2px_10px_rgba(99,102,241,0.35)] dark:from-sky-300 dark:via-indigo-300 dark:to-violet-300 sm:mb-3 sm:text-lg md:text-xl"
+                                className="hero-quote-kicker mb-1 bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-500 bg-clip-text font-semibold uppercase text-transparent drop-shadow-[0_2px_10px_rgba(99,102,241,0.35)] dark:from-sky-300 dark:via-indigo-300 dark:to-violet-300 sm:mb-2"
                             >
                                 The best way to escape
                             </motion.p>
 
+                            {/* ── CHANGED: removed scale animation, toned-down drop-shadow ── */}
                             <motion.h1
-                                initial={{ opacity: 0, y: 24, scale: 0.98 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                initial={{ opacity: 0, y: 16 }}
+                                animate={{ opacity: 1, y: 0 }}
                                 transition={{
                                     delay: 0.2,
-                                    duration: 0.9,
+                                    duration: 0.7,
                                     ease: ENTRANCE_EASE,
                                 }}
-                                className="bg-[linear-gradient(100deg,#0ea5e9_0%,#4f46e5_38%,#8b5cf6_68%,#ec4899_100%)] bg-clip-text text-6xl font-black leading-[0.9] tracking-tighter text-transparent drop-shadow-[0_18px_45px_rgba(79,70,229,0.22)] sm:text-7xl md:text-[5.5rem] lg:text-[6rem] xl:text-[6.5rem]"
+                                className="hero-quote-title bg-[linear-gradient(100deg,#0ea5e9_0%,#4f46e5_38%,#8b5cf6_68%,#ec4899_100%)] bg-clip-text text-transparent drop-shadow-[0_4px_14px_rgba(79,70,229,0.15)]"
                             >
                                 Problems
                             </motion.h1>
 
-                            <motion.p
+                            <motion.h2
                                 initial={{ opacity: 0, y: 14 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.35, duration: 0.75 }}
-                                className="mb-3 bg-gradient-to-r from-slate-700 via-slate-500 to-slate-700 bg-clip-text text-2xl font-semibold leading-snug tracking-tight text-transparent dark:from-slate-200 dark:via-slate-300 dark:to-slate-200 sm:text-3xl md:text-4xl lg:text-5xl"
+                                className="hero-quote-subtitle mb-2 bg-gradient-to-r from-slate-700 via-slate-500 to-slate-700 bg-clip-text font-semibold text-transparent dark:from-slate-200 dark:via-slate-300 dark:to-slate-200 sm:mb-3"
                             >
                                 is to solve them.
-                            </motion.p>
+                            </motion.h2>
 
                             <motion.div
                                 initial={{ opacity: 0 }}
@@ -367,7 +374,6 @@ export default function HeroSection({ scrollToSection, settings }) {
                                 className="flex flex-col gap-1"
                             >
                                 <div className="h-px w-10 bg-gradient-to-r from-transparent via-slate-400 to-transparent" />
-
                                 <div className="text-sm italic tracking-wide text-slate-500 dark:text-slate-400 sm:text-base">
                                     ~ Brendan Francis
                                 </div>
@@ -379,7 +385,7 @@ export default function HeroSection({ scrollToSection, settings }) {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.45, duration: 0.8 }}
-                            className="text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-lg"
+                            className="text-base sm:text-md text-slate-600 dark:text-slate-400 leading-relaxed"
                         >
                             {settings?.description}
                         </motion.p>
@@ -451,18 +457,18 @@ export default function HeroSection({ scrollToSection, settings }) {
                     >
                         <motion.div
                             style={{ y: yParallax }}
-                            className="relative flex min-h-[520px] w-full items-center justify-center"
+                            className="relative flex min-h-[460px] w-full items-center justify-center"
                         >
                             <div className="image-glow" aria-hidden />
-                            <div className="absolute h-[430px] w-[430px] rounded-full border border-violet-200/50 dark:border-violet-800/30 xl:h-[500px] xl:w-[500px]" aria-hidden />
-                            <div className="absolute h-[350px] w-[350px] rounded-full border border-blue-200/50 dark:border-blue-800/25 xl:h-[410px] xl:w-[410px]" aria-hidden />
+                            <div className="absolute h-[380px] w-[380px] rounded-full border border-violet-200/50 dark:border-violet-800/30 xl:h-[440px] xl:w-[440px]" aria-hidden />
+                            <div className="absolute h-[305px] w-[305px] rounded-full border border-blue-200/50 dark:border-blue-800/25 xl:h-[360px] xl:w-[360px]" aria-hidden />
 
-                            <div className="hero-device-shell relative z-10 flex h-[380px] w-[380px] items-center justify-center rounded-full xl:h-[440px] xl:w-[440px]">
-                                <div className="absolute inset-8 rounded-full border border-white/60 dark:border-white/10" aria-hidden />
+                            <div className="hero-device-shell relative z-10 flex h-[330px] w-[330px] items-center justify-center rounded-full xl:h-[385px] xl:w-[385px]">
+                                <div className="absolute inset-7 rounded-full border border-white/60 dark:border-white/10" aria-hidden />
                                 <img
                                     src="/image/slider1.png"
                                     alt="Cloud Com Solutions"
-                                    className="relative z-10 h-auto w-72 object-contain drop-shadow-2xl xl:w-[22rem]"
+                                    className="relative z-10 h-auto w-64 object-contain drop-shadow-2xl xl:w-[19rem]"
                                 />
                             </div>
 
@@ -477,7 +483,7 @@ export default function HeroSection({ scrollToSection, settings }) {
             </div>
 
             {/* Bottom fade */}
-            <div className="absolute bottom-0 left-0 right-0  bg-gradient-to-t from-white/40 dark:from-black/20 to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white/40 dark:from-black/20 to-transparent pointer-events-none" />
         </section>
     );
 }
@@ -494,12 +500,12 @@ function FloatingHeroBadge({ badge }) {
                 ease: 'easeInOut',
                 delay: badge.delay,
             }}
-            className={`float-card absolute z-20 hidden w-[210px] p-3.5 xl:block ${badge.className}`}
+            className={`float-card absolute z-20 hidden w-[190px] p-3 xl:block ${badge.className}`}
         >
             <div className="shimmer-line" />
             <div className="flex items-center gap-3">
-                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${badge.gradient} text-white shadow-md`}>
-                    <Icon className="h-5 w-5" aria-hidden />
+                <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${badge.gradient} text-white shadow-md`}>
+                    <Icon className="h-[18px] w-[18px]" aria-hidden />
                 </div>
                 <div className="min-w-0">
                     <p className="text-[10px] font-semibold leading-tight" style={{ color: 'var(--text-muted)' }}>
@@ -524,7 +530,7 @@ function TechStackBadge() {
                 ease: 'easeInOut',
                 delay: 0.75,
             }}
-            className="float-card absolute bottom-0 right-0 z-20 hidden translate-x-[32%] p-3.5 xl:block"
+            className="float-card absolute bottom-10 right-8 z-20 hidden translate-x-[24%] p-3 xl:block"
         >
             <div className="shimmer-line" />
             <p
@@ -537,13 +543,13 @@ function TechStackBadge() {
                 {TECH_STACK.map((tech) => (
                     <div
                         key={tech.name}
-                        className={`tech-icon flex h-10 w-10 items-center justify-center rounded-lg ${tech.bg}`}
+                        className={`tech-icon flex h-9 w-9 items-center justify-center rounded-lg ${tech.bg}`}
                         title={tech.name}
                     >
                         <img
                             src={tech.img}
                             alt={tech.name}
-                            className="h-6 w-6 object-contain"
+                            className="h-[22px] w-[22px] object-contain"
                         />
                     </div>
                 ))}
@@ -552,7 +558,6 @@ function TechStackBadge() {
     );
 }
 
-/* ── Inline SVG icon components ── */
 function CalendarIcon() {
     return (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
